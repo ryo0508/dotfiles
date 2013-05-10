@@ -8,6 +8,8 @@ PATH=$PATH:/usr/local/share/npm/bin/
 PATH=$PATH:/usr/local/sbin
 PATH=$PATH:/usr/local/Cellar/
 
+export FPATH=$FPATH:/usr/local/share/zsh/site-functions
+
 #eval "$(rbenv init -)"
 
 export EDITOR="$HOME/local/bin/vim"
@@ -30,7 +32,7 @@ esac
 #
 # autoload colors
 # ${fg[...]} や $reset_color をロード
-autoload -U colors; colors
+autoload -U colors && colors
 
 function rprompt-git-current-branch {
         local name st color
@@ -62,7 +64,7 @@ setopt prompt_subst
 RPROMPT='[`rprompt-git-current-branch`%~]'
 
 colors
-PROMPT="%{${fg[green]}%}%2d %(!.#.$) %{${reset_color}%}"
+PROMPT="%{${fg[white]}%}%W %* %{${reset_color}%}%{${fg[green]}%}%2d %(!.#.$) %{${reset_color}%}"
 PROMPT2="%{${fg[green]}%}%_> %{${reset_color}%}"
 SPROMPT="%{${fg[red]}%}correct: %R -> %r [nyae]? %{${reset_color}%}"
 #RPROMPT="%{${fg[green]}%}%n@%m:{%${reset_color}%}[`rprompt-git-current-branch`%~]"
@@ -196,4 +198,23 @@ alias monit="ssh docci_monit01"
 tmux-att() { tmux attach-session -t $1 }
 
 # Mailtrapのログを文字コード変換して
-alias mailtrap_log="tail -F /var/tmp/mailtrap.log | perl -MEncode -pe '\$_ = encode(\"utf-8\", decode(\"iso-2022-jp\", \$_))
+alias mailtrap_log="tail -F /var/tmp/mailtrap.log | perl -MEncode -pe '\$_ = encode(\"utf-8\", decode(\"iso-2022-jp\", \$_))"
+
+# ================================================================
+# Finderでのファイルの表示・非表示トグル 
+# ================================================================
+toggle_hidden_files() {
+  is_showing=`defaults read com.apple.finder AppleShowAllFiles`
+
+  if [ ${is_showing} = TRUE ]
+  then
+    defaults write com.apple.finder AppleShowAllFiles FALSE;
+  else
+    defaults write com.apple.finder AppleShowAllFiles TRUE;
+  fi
+
+  echo AppleShowAllFiles has been set to: `defaults read com.apple.finder AppleShowAllFiles`
+
+  echo restarting Finder
+  sudo killall Finder
+}
