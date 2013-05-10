@@ -1,4 +1,4 @@
-files=('.tmux.conf' '.zlogin' '.zshenv' '.zshrc')
+files=('.tmux.conf' '.zlogin' '.zshenv' '.zshrc' '.zlogout' '.zprofile')
 
 for f in "${files[@]}"
 do
