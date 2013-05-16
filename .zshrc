@@ -41,13 +41,12 @@ PROMPT2="%{${fg[green]}%}%_> %{${reset_color}%}"
 SPROMPT="%{${fg[red]}%}correct: %R -> %r [nyae]? %{${reset_color}%}"
 #RPROMPT="%{${fg[green]}%}%n@%m:{%${reset_color}%}[`rprompt-git-current-branch`%~]"
 
-# auto change directory
-#
-setopt auto_cd
+# If a command is not in the hash table, and there exists an executable directory by that name, perform the cd command to that directory.
+setopt AUTO_CD
 
 # auto directory pushd that you can get dirs list by cd -[tab]
-#
-setopt auto_pushd
+DIRSTACKSIZE=20
+setopt AUTO_PUSHD
 
 # command correct edition before each completion attempt
 #
@@ -87,15 +86,14 @@ bindkey "\\en" history-beginning-search-forward-end
 #
 # bindkey "\e[Z" reverse-menu-complete
 
-
-
-
-## Completion configuration
-#
-fpath=(${HOME}/.zsh/functions/Completion ${fpath})
-autoload -U compinit
-compinit
-
+# ================================================================
+# zsh-completions 
+# ================================================================
+autoload -Uz compinit && compinit
+export FPATH=$FPATH:/usr/local/share/zsh/site-functions:${HOME}/.zsh/functions/Completion
+zstyle ':completion:*' menu select
+zstyle ':completion:*:cd:*' ignore-parents parent pwd
+zstyle ':completion:*:descriptions' format '%BCompleting%b %U%d%u'
 
 ## zsh editor
 #
@@ -155,6 +153,14 @@ alias df="df -h"
 alias su="su -l"
 alias monit="ssh docci_monit01"
 
+alias -g L='| less'
+alias -g H='| head'
+alias -g T='| tail'
+alias -g G='| grep'
+alias -g W='| wc'
+alias -g S='| sed'
+alias -g A='| awk'
+
 tmux-att() { tmux attach-session -t $1 }
 
 # Mailtrapのログを文字コード変換して
@@ -188,10 +194,6 @@ toggle_hidden_files() {
   sudo killall Finder
 }
 
-# ================================================================
-# zsh-completions 
-# ================================================================
-export FPATH=$FPATH:/usr/local/share/zsh/site-functions
 
 # ================================================================
 # Version Control for Languages
