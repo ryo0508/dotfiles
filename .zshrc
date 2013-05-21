@@ -194,12 +194,8 @@ toggle_hidden_files() {
   sudo killall Finder
 }
 
-
 # ================================================================
-# Version Control for Languages
+# Perl Settings
 # ================================================================
-# rbenv
-if which rbenv > /dev/null; then
-  eval   "$(rbenv init - zsh)"
-  # source "`$brew --prefix rbenv`/completions/rbenv.zsh"
-fi
+export PERL_CPANM_OPT="--local-lib=$HOME/.perl-extlib"
+export PERL5LIB="$HOME/.perl-extlib/lib/perl5:$PERL5LIB"
