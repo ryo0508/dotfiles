@@ -9,7 +9,7 @@ export LS_COLORS='di=41:ln=35:so=32:pi=33:ex=31:bd=46;31:cd=43;31:su=41;30:sg=46
 export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 
 # Path Setting for rbenv
-export PATH=$PATH:$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH
+export PATH=$HOME/.rbenv/shims:$PATH
 
 # Path Setting for Android Tools
 export PATH=$PATH:$HOME/resources/android_sdk/tools:$HOME/android-sdks/platform-tools:
