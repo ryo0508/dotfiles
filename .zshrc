@@ -166,6 +166,9 @@ tmux-att() { tmux attach-session -t $1 }
 # Mailtrapのログを文字コード変換して
 alias mailtrap_log="tail -F /var/tmp/mailtrap.log | perl -MEncode -pe '\$_ = encode(\"utf-8\", decode(\"iso-2022-jp\", \$_))"
 
+# Launch iPhoneSimulator
+alias ios_simulator='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
+
 # ================================================================
 # History configuration
 # ================================================================
