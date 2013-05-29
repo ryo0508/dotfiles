@@ -1,13 +1,18 @@
-#! /bin/sh
+#!/bin/sh
 
-files=('.tmux.conf' '.zlogin' '.zshenv' '.zshrc' '.zlogout' '.zprofile' '.gemrc')
+for name in *; do
 
-for f in "${files[@]}"
-do
-  if [ ! -h ${HOME}/${f} ]; then
-    ln -s ${PWD}/${f} ${HOME}
-    echo Symlink created for: ${f}
+  target="${HOME}/.${name}"
+
+  if [ -e ${target} ]; then
+    echo "Symlink already there: ${target}"
   else
-    echo "${f} already exists :)"
+    # ファイルがなかったら
+    if [ ${name} != 'setup.sh' ] && [ ${name} != 'README.md' ]; then
+      echo "Creating ${target}"
+      ln -s "${PWD}/${name}" ${target}
+    fi
   fi
 done
+
+# Sample: https://github.com/thoughtbot/dotfiles/blob/master/install.sh
