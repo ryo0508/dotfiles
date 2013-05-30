@@ -155,6 +155,9 @@ alias -g S='| sed'
 alias -g A='| awk'
 
 alias monit="ssh docci_monit01"
+
+# Rails
+alias migrate="rake db:migrate && rake db:rollback && rake db:migrate && rake db:test:prepare"
 alias s="rspec"
 
 tmux-att() { tmux attach-session -t $1 }
