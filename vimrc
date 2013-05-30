@@ -32,6 +32,8 @@ NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-rails.git'
+NeoBundle 'thoughtbot/vim-rspec'
+
 
 NeoBundle 'taichouchou2/alpaca_powertabline'
 NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
@@ -189,6 +191,11 @@ autocmd! BufWritePre fuck
       \ try | echoerr 'Hey thats not nice to call a file ' . expand('<afile>') | endtry
 autocmd! BufWritePre ' 
       \ try | echoerr 'This file should not be saved: ' . expand('<afile>') | endtry
+
+nnoremap <Leader>a :call RunCurrentSpecFile()<CR>
+nnoremap <Leader>s :call RunNearestSpec()<CR>
+nnoremap <Leader>l :call RunLastSpec()<CR>
+
 " }}}
 
 " Indent Setting------------------------------------------------------- {{{
@@ -269,7 +276,7 @@ let g:NERDTreeWinSize = 40
 set wildignore+=.hg,.git,.svn                           " VCS
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg          " Images
 set wildignore+=vendor/*,log/*,tmp/*,*app/admin/*       " Rails
-set wildignore+=*app/view/admin/*,coverage/*            " Rails
+set wildignore+=*app/view/admin/*,coverage/*,bin/*      " Rails
 set wildignore+=*.jar,*.class                           " Java
 set wildignore+=rebar,tags,*.beam,deps/*,rel/*,*/ebin/* " Erlang
 set wildignore+=*.lzo,*.zip,*.gz,*.tgz,*.tar            " Compressed files
@@ -281,9 +288,6 @@ set wildignore+=*.DS_Store                              " OS X
 let g:user_zen_settings = {
       \'indentation' : '  ',
       \}
-" }}}
-
-" Rails.vim------------------------------------------------------------- {{{
 " }}}
 
 " snipmate-------------------------------------------------------------- {{{
@@ -311,18 +315,6 @@ function! s:warningMsg(msg)
 endfunction
 " }}}
 
-" Search Dash for word under cursor {{{
-function! SearchDash()
-  let s:browser = "/usr/bin/open"
-  let s:wordUnderCursor = expand("<cword>")
-  let s:url = "dash://".s:wordUnderCursor
-  let s:cmd ="silent ! " . s:browser . " " . s:url
-  execute s:cmd
-  redraw!
-endfunction
-map <leader>d :call SearchDash()<CR> 
-" }}}
-
 " vimgrep     ------------------------------------------------------ {{{
 autocmd QuickFixCmdPost *grep* cwindow
 
@@ -332,6 +324,7 @@ nnoremap [Q :<C-u>cfirst<CR> " To First
 nnoremap ]Q :<C-u>clast<CR>  " To Last 
 
 " }}}
+
 
 " なにこれ？
 autocmd QuickfixCmdPost make copen

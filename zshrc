@@ -146,13 +146,6 @@ brails() { ./bin/rails $1 }
 alias la="ls -a"
 alias lf="ls -F"
 alias ll="ls -la"
-
-alias du="du -h"
-alias df="df -h"
-
-alias su="su -l"
-alias monit="ssh docci_monit01"
-
 alias -g L='| less'
 alias -g H='| head'
 alias -g T='| tail'
@@ -160,6 +153,9 @@ alias -g G='| grep'
 alias -g W='| wc'
 alias -g S='| sed'
 alias -g A='| awk'
+
+alias monit="ssh docci_monit01"
+alias s="rspec"
 
 tmux-att() { tmux attach-session -t $1 }
 

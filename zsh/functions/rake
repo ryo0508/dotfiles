@@ -1,0 +1,7 @@
+rake() {
+  if [ -x bin/rake ]; then
+    spring rake "$@"
+  else
+    command rake "$@"
+  fi
+}

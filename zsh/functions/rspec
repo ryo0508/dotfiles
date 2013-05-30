@@ -1,0 +1,9 @@
+#!/bin/sh
+
+rspec() {
+  if [ -x bin/rspec ]; then
+    spring rspec "$@"
+  else
+    command rspec "$@"
+  fi
+}
