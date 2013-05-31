@@ -90,80 +90,28 @@ bindkey "\\en" history-beginning-search-forward-end
 # zsh-completions 
 # ================================================================
 autoload -Uz compinit && compinit
-export FPATH=$FPATH:/usr/local/share/zsh/site-functions:${HOME}/.zsh/functions/Completion
+export FPATH=/usr/local/share/zsh/site-functions:$FPATH:
 zstyle ':completion:*' menu select
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
 zstyle ':completion:*:descriptions' format '%BCompleting%b %U%d%u'
 
+for function in ~/.zsh/functions/*; do
+  source $function
+done
+
 ## zsh editor
-#
 autoload zed
 
-
-## Prediction configuration
-#
-#autoload predict-on
-#predict-off
-
-
-## Alias configuration
-#
-# expand aliases before completing
-#
-setopt complete_aliases     # aliased ls needs if file/dir completions work
-
-alias where="command -v"
-alias j="jobs -l"
-
-case "${OSTYPE}" in
-  freebsd*|darwin*)
-    alias ls="ls -G -w"
-    ;;
-  linux*)
-    alias ls="ls --color"
-    ;;
-esac
 
 ## terminal configuration
 zstyle ':completion:*' list-colors 'di=41' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;31'
 
-# set terminal title including current directory
-#
-case "${TERM}" in
-  xterm|xterm-color|kterm|kterm-color)
-    precmd() {
-      echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
-    }
-    ;;
-esac
-
-brake() { ./bin/rake $1 }
-brails() { ./bin/rails $1 }
-
 # ================================================================
 # Alias
 # ================================================================
-alias la="ls -a"
-alias lf="ls -F"
-alias ll="ls -la"
-alias -g L='| less'
-alias -g H='| head'
-alias -g T='| tail'
-alias -g G='| grep'
-alias -g W='| wc'
-alias -g S='| sed'
-alias -g A='| awk'
-
-alias monit="ssh docci_monit01"
-alias s="rspec"
-
-tmux-att() { tmux attach-session -t $1 }
-
-# Mailtrapのログを文字コード変換して
-alias mailtrap_log="tail -F /var/tmp/mailtrap.log | perl -MEncode -pe '\$_ = encode(\"utf-8\", decode(\"iso-2022-jp\", \$_))"
-
-# Launch iPhoneSimulator
-alias ios_simulator='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
+if [ -e "$HOME/.aliases" ]; then
+  source "$HOME/.aliases"
+fi
 
 # ================================================================
 # History configuration
@@ -174,24 +122,6 @@ SAVEHIST=50000
 setopt hist_ignore_dups     # ignore duplication command history list
 setopt share_history        # share command history data
 
-# ================================================================
-# Finderでのファイルの表示・非表示トグル 
-# ================================================================
-toggle_hidden_files() {
-  is_showing=`defaults read com.apple.finder AppleShowAllFiles`
-
-  if [ ${is_showing} = TRUE ]
-  then
-    defaults write com.apple.finder AppleShowAllFiles FALSE;
-  else
-    defaults write com.apple.finder AppleShowAllFiles TRUE;
-  fi
-
-  echo AppleShowAllFiles has been set to: `defaults read com.apple.finder AppleShowAllFiles`
-
-  echo restarting Finder
-  sudo killall Finder
-}
 
 # ================================================================
 # Perl Settings

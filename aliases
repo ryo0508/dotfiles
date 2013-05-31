@@ -1,0 +1,52 @@
+## Alias configuration
+# expand aliases before completing
+#
+setopt complete_aliases     # aliased ls needs if file/dir completions work
+
+alias where="command -v"
+alias j="jobs -l"
+
+alias la="ls -a"
+alias lf="ls -F"
+alias ll="ls -la"
+alias -g L='| less'
+alias -g H='| head'
+alias -g T='| tail'
+alias -g G='| grep'
+alias -g W='| wc'
+alias -g S='| sed'
+alias -g A='| awk'
+
+alias monit="ssh docci_monit01"
+alias s="rspec"
+
+# set terminal title including current directory
+#
+case "${TERM}" in
+  xterm|xterm-color|kterm|kterm-color)
+    precmd() {
+      echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
+    }
+    ;;
+esac
+
+case "${OSTYPE}" in
+  freebsd*|darwin*)
+    alias ls="ls -G -w"
+    ;;
+  linux*)
+    alias ls="ls --color"
+    ;;
+esac
+
+tmux-att() { tmux attach-session -t $1 }
+
+# Mailtrapのログを文字コード変換して
+alias mailtrap_log="tail -F /var/tmp/mailtrap.log | perl -MEncode -pe '\$_ = encode(\"utf-8\", decode(\"iso-2022-jp\", \$_))"
+
+# Launch iPhoneSimulator
+alias ios_simulator='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
+
+# Rails Alias 
+alias migrate="rake db:migrate && rake db:rollback && rake db:migrate && rake db:test:prepare"
+
