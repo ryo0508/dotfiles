@@ -1,0 +1,18 @@
+# ================================================================
+# Finderでのファイルの表示・非表示トグル 
+# ================================================================
+toggle_hidden_files() {
+  is_showing=`defaults read com.apple.finder AppleShowAllFiles`
+
+  if [ ${is_showing} = TRUE ]
+  then
+    defaults write com.apple.finder AppleShowAllFiles FALSE;
+  else
+    defaults write com.apple.finder AppleShowAllFiles TRUE;
+  fi
+
+  echo AppleShowAllFiles has been set to: `defaults read com.apple.finder AppleShowAllFiles`
+
+  echo restarting Finder
+  sudo killall Finder
+}

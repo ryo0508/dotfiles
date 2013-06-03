@@ -34,26 +34,20 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-rails.git'
 NeoBundle 'thoughtbot/vim-rspec'
 NeoBundle 'Shougo/neocomplcache.vim.git'
-
-
 NeoBundle 'taichouchou2/alpaca_powertabline'
 NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
 
 " vim-scripts repos
 NeoBundle 'Command-T'
 NeoBundle 'EasyMotion'
-NeoBundle 'fugitive.vim'
 NeoBundle 'L9'
 NeoBundle 'quickrun.vim'
-NeoBundle 'snipMate'
 NeoBundle 'surround.vim'
 NeoBundle 'Tabular'
 NeoBundle 'taglist.vim'
 NeoBundle 'tComment'
 NeoBundle 'The-NERD-tree'
-NeoBundle 'vim-coffee-script'
 NeoBundle 'YankRing.vim'
-NeoBundle 'ZenCoding.vim'
 
 " Color Scheme
 NeoBundle 'tomasr/molokai'
@@ -285,16 +279,6 @@ set wildignore+=*.log,BLANK,*.log.[0-9]*,*.lock,*.pid   " log, lock, pid files "
 set wildignore+=*.DS_Store                              " OS X
 " }}}
 
-" ZenCoding------------------------------------------------------------- {{{
-let g:user_zen_settings = {
-      \'indentation' : '  ',
-      \}
-" }}}
-
-" snipmate-------------------------------------------------------------- {{{
-let g:snippets_dir = '~/.vim/snippets/'
-" }}}
-
 " YankRing ------------------------------------------------------------- {{{
 let g:yankring_paste_v_akey = ''
 let g:yankring_paste_v_bkey = ''
@@ -418,7 +402,6 @@ let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 let g:neocomplcache_omni_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 " }}}
 
-
 " なにこれ？
 autocmd QuickfixCmdPost make copen
 
@@ -427,3 +410,45 @@ iabbrev parmas params
 
 " More File Types
 au BufNewFile,BufRead *.thor set filetype=ruby
+
+" Quickrunx x vimproc x rspec
+let g:quickrun_config = {}
+
+augroup QrunRSpec
+  autocmd!
+  autocmd BufWinEnter,BufNewFile *_spec.rb set filetype=ruby.rspec
+augroup END
+
+let g:quickrun_config._ = {'runner' : 'vimproc'}
+
+let g:quickrun_config['rspec/normal'] = {
+  \ 'type':       'rspec/normal',
+  \ 'command':    'rspec',
+  \ 'exec':       'rspec',
+  \ 'outputter/buffer/filetype': 'rspec-result',
+  \ 'vsplit': ''
+  \ }
+
+let g:quickrun_config['rspec/spring'] = {
+  \ 'type':        'rspec/spring',
+  \ 'command':     'rspec',
+  \ 'exec':        './bin/rspec %s',
+  \ 'outputter/buffer/filetype': 'rspec-result',
+  \ 'vsplit': ''
+  \ }
+
+let g:quickrun_config['rspec/bundle'] = {
+  \ 'type':        'rspec/bundle',
+  \ 'command':     'rspec',
+  \ 'exec':        'bundle exec %c %s',
+  \ 'outputter/buffer/filetype': 'rspec-result',
+  \ 'vsplit': ''
+  \}
+
+function! RspecQuickrun()
+  " let b:quickrun_config = { 'type' : 'rspec/bundle' }
+  " let b:quickrun_config = { 'type' : 'rspec/normal' }
+  let b:quickrun_config = { 'type' : 'rspec/spring' }
+endfunction
+
+autocmd BufReadPost *_spec.rb call RspecQuickrun()
