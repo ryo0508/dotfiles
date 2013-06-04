@@ -22,36 +22,27 @@ NeoBundle 'Shougo/vimproc', {
       \ },
       \ }
 
-" My Bundles here:
-"
-" Note: You don't set neobundle setting in .gvimrc!
 " Original repos on github
 NeoBundle 'Lokaltog/vim-easymotion'
-NeoBundle 'majutsushi/tagbar.git'
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'rstacruz/sparkup', {'rtp': 'vim/'}
 
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-rails.git'
+NeoBundle 'tpope/vim-surround'
 NeoBundle 'thoughtbot/vim-rspec'
-NeoBundle 'SirVer/ultisnips.git'
-
+NeoBundle 'Shougo/neocomplcache.vim'
+NeoBundle 'Shougo/neosnippet.vim'
+NeoBundle 'Shougo/neocomplcache-rsense.vim'
 NeoBundle 'taichouchou2/alpaca_powertabline'
 NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
-
-" vim-scripts repos
-NeoBundle 'Command-T'
-NeoBundle 'EasyMotion'
-NeoBundle 'fugitive.vim'
-NeoBundle 'L9'
-NeoBundle 'quickrun.vim'
-NeoBundle 'surround.vim'
-NeoBundle 'Tabular'
-NeoBundle 'taglist.vim'
-NeoBundle 'tComment'
-NeoBundle 'The-NERD-tree'
-NeoBundle 'vim-coffee-script'
-NeoBundle 'YankRing.vim'
+NeoBundle 'godlygeek/tabular'
+NeoBundle 'majutsushi/tagbar'
+NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'vim-scripts/YankRing.vim'
 
 " Color Scheme
 NeoBundle 'tomasr/molokai'
@@ -246,16 +237,13 @@ nmap <F11> :set paste<cr>
 
 " ctag setting---------------------------------------------------------- {{{
 let g:tagbar_ctags_bin = '/usr/local/bin/ctags'
+nmap <silent> <Leader>m :TagbarToggle<CR>
 " }}}
 
-" Command-T------------------------------------------------------------- {{{
-let g:CommandTMaxHeight=20
-let g:CommandTMatchWindowAtTop=1
-nmap <silent> <Leader>t :CommandT<CR>
-nmap <silent> <Leader>b :CommandTBuffer<CR>
-nmap <silent> <Leader>f :CommandTFlush<CR>
-nmap <silent> <Leader>n :NERDTreeToggle<CR>
-nmap <silent> <Leader>m :TagbarToggle<CR>
+" ctrlP ---------------------------------------------------------------- {{{
+let g:ctrlp_map = "<Leader>t"
+let g:ctrlp_match_window_bottom   = 0
+let g:ctrlp_match_window_reversed = 0
 " }}}
 
 " Tabularize------------------------------------------------------------ {{{
@@ -271,36 +259,24 @@ endif
 
 " NERD-tree------------------------------------------------------------- {{{
 let g:NERDTreeWinSize = 40
+nmap <silent> <Leader>n :NERDTreeToggle<CR>
 " }}}
 
 " WildMenu-------------------------------------------------------------- {{{
-set wildignore+=.hg,.git,.svn                           " VCS
-set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg          " Images
-set wildignore+=vendor/*,log/*,tmp/*,*app/admin/*       " Rails
-set wildignore+=*app/view/admin/*,coverage/*,bin/*      " Rails
-set wildignore+=*.jar,*.class                           " Java
-set wildignore+=rebar,tags,*.beam,deps/*,rel/*,*/ebin/* " Erlang
-set wildignore+=*.lzo,*.zip,*.gz,*.tgz,*.tar            " Compressed files
-set wildignore+=*.log,BLANK,*.log.[0-9]*,*.lock,*.pid   " log, lock, pid files "
-set wildignore+=*.DS_Store                              " OS X
-" }}}
-
-" ZenCoding------------------------------------------------------------- {{{
-let g:user_zen_settings = {
-      \'indentation' : '  ',
-      \}
-" }}}
-
-" snipmate-------------------------------------------------------------- {{{
-let g:snippets_dir = '~/.vim/snippets/'
+set wildignore+=*/.hg,*/.git,*/.svn                       " VCS
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg            " Images
+set wildignore+=*/vendor/*,*/log/*,*/tmp/*,*/app/admin/*  " Rails
+set wildignore+=*/app/view/admin,*/coverage,*/bin   " Rails
+" set wildignore+=*.jar,*.class                             " Java
+" set wildignore+=rebar,tags,*.beam,deps/*,rel/*,*/ebin/*   " Erlang
+set wildignore+=*.lzo,*.zip,*.gz,*.tgz,*.tar              " Compressed files
+set wildignore+=*.log,BLANK,*.log.[0-9]*,*.lock,*.pid     " log, lock, pid files "
+set wildignore+=*.DS_Store                                " OS X
 " }}}
 
 " YankRing ------------------------------------------------------------- {{{
 let g:yankring_paste_v_akey = ''
 let g:yankring_paste_v_bkey = ''
-" }}}
-
-" Surround.vim --------------------------------------------------------- {{{
 " }}}
 
 " QuickRun --------------------------------------------------------- {{{
@@ -326,6 +302,103 @@ nnoremap ]Q :<C-u>clast<CR>  " To Last
 
 " }}}
 
+" neocomplcache ----------------------------------------------------- {{{
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplcache.
+let g:neocomplcache_enable_at_startup = 1
+" Use smartcase.
+let g:neocomplcache_enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplcache_min_syntax_length = 3
+let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+
+" Enable heavy features.
+" Use camel case completion.
+"let g:neocomplcache_enable_camel_case_completion = 1
+" Use underbar completion.
+"let g:neocomplcache_enable_underbar_completion = 1
+
+" Define dictionary.
+let g:neocomplcache_dictionary_filetype_lists = {
+    \ 'default'  : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme'   : $HOME.'/.gosh_completions'
+        \ }
+
+" Define keyword.
+if !exists('g:neocomplcache_keyword_patterns')
+    let g:neocomplcache_keyword_patterns = {}
+endif
+let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplcache#undo_completion()
+inoremap <expr><C-l>     neocomplcache#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+
+function! s:my_cr_function()
+  " return neocomplcache#smart_close_popup() . "\<CR>"
+  " For no inserting <CR> key.
+  return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+endfunction
+
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h>  neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS>   neocomplcache#smart_close_popup()."\<C-h>"
+
+inoremap <expr><C-y>  neocomplcache#close_popup()
+inoremap <expr><C-e>  neocomplcache#cancel_popup()
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
+
+" Enable omni completion.
+autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript    setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python        setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml           setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplcache_omni_patterns')
+  let g:neocomplcache_omni_patterns = {}
+endif
+" let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+" let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+" let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+" }}}
+
+" neosnippet ------------------------------------------------------- {{{
+" Plugin key-mappings.
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: "\<TAB>"
+
+" Enable snipMate compatibility feature.
+" let g:neosnippet#enable_snipmate_compatibility = 1
+
+" Tell Neosnippet about the other snippets
+let g:neosnippet#snippets_directory='~/.vim/snippets'
+
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
+" }}}
 
 " なにこれ？
 autocmd QuickfixCmdPost make copen
