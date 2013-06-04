@@ -30,10 +30,11 @@ NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'majutsushi/tagbar.git'
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-rails.git'
 NeoBundle 'thoughtbot/vim-rspec'
-
+NeoBundle 'SirVer/ultisnips.git'
 
 NeoBundle 'taichouchou2/alpaca_powertabline'
 NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
@@ -44,7 +45,6 @@ NeoBundle 'EasyMotion'
 NeoBundle 'fugitive.vim'
 NeoBundle 'L9'
 NeoBundle 'quickrun.vim'
-NeoBundle 'snipMate'
 NeoBundle 'surround.vim'
 NeoBundle 'Tabular'
 NeoBundle 'taglist.vim'
@@ -52,7 +52,6 @@ NeoBundle 'tComment'
 NeoBundle 'The-NERD-tree'
 NeoBundle 'vim-coffee-script'
 NeoBundle 'YankRing.vim'
-NeoBundle 'ZenCoding.vim'
 
 " Color Scheme
 NeoBundle 'tomasr/molokai'
@@ -87,6 +86,8 @@ set backspace=2 " make backspace work like most other apps
 
 " Apply .vimrc immidiately after saving .vimrc
 autocmd! BufWritePost .vimrc source ~/.vimrc
+
+
 
 " }}}
 
