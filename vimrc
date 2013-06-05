@@ -2,10 +2,10 @@
 set nocompatible
 filetype off
 
+" Initialize NeoBundle
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
-
 call neobundle#rc(expand('~/.vim/bundle/'))
 
 " Let NeoBundle manage NeoBundle
@@ -24,17 +24,32 @@ NeoBundle 'Shougo/vimproc', {
 
 " Original repos on github
 NeoBundle 'Lokaltog/vim-easymotion'
-NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+NeoBundleLazy 'pangloss/vim-javascript', {
+  \ 'autoload' : { 'filetypes' : 'javascript' }}
+NeoBundle 'rstacruz/sparkup', {'rtp': 'vim/ftplugin'}
 
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-rails.git'
+NeoBundle 'tpope/vim-fugitive' 
+NeoBundleLazy 'tpope/vim-rails.git', {
+  \ 'autoload' : { 'filetypes' : 'ruby' }}
+
 NeoBundle 'tpope/vim-surround'
 " NeoBundle 'thoughtbot/vim-rspec'
 NeoBundle 'skwp/vim-rspec'
-NeoBundle 'Shougo/neocomplcache.vim'
-NeoBundle 'Shougo/neosnippet.vim'
-NeoBundle 'Shougo/neocomplcache-rsense.vim'
+
+NeoBundleLazy 'Shougo/neocomplcache.vim', {
+  \ 'autoload': {
+  \   'insert' : 1,
+  \ }}
+
+NeoBundleLazy 'Shougo/neosnippet.vim', {
+  \ 'autoload': {
+  \   'insert' : 1,
+  \ }}
+
+NeoBundle 'Shougo/neocomplcache-rsense.vim', {
+  \ 'depends'  : 'Shugo/neocomplcache.vim',
+  \ 'autoload' : { 'filetypes' : 'ruby' }}
+
 NeoBundle 'taichouchou2/alpaca_powertabline'
 NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
 NeoBundle 'godlygeek/tabular'
@@ -42,20 +57,14 @@ NeoBundle 'majutsushi/tagbar'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'tomtom/tcomment_vim'
-NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'scrooloose/nerdtree', { 'augroup' : 'NERDTreeHijackNetrw'}
 NeoBundle 'vim-scripts/YankRing.vim'
 
 " Color Scheme
-NeoBundle 'tomasr/molokai'
-NeoBundle 'Solarized'
-NeoBundle 'sjl/badwolf'
+NeoBundleLazy 'tomasr/molokai'
+NeoBundleLazy 'Solarized'
+NeoBundle     'sjl/badwolf'
 
-
-" Non github repos
-
-" Non git repos
-
-"...
 filetype plugin indent on
 
 " Brief help
@@ -65,7 +74,6 @@ filetype plugin indent on
 
 " Installation check.
 NeoBundleCheck
-
 
 " }}}
 
@@ -145,14 +153,15 @@ set noshowmode    "Hide the default mode text (e.g. -- INSERT -- below the statu
 " {{{ Color Settings
 set t_Co=256
 syntax on
-
 set background=dark
+
 colorscheme badwolf
 
 " MacVimで動かしたときはSolarizedのdarkを適用
 if has("gui_macvim")
   set background=dark
-  colorscheme solarized
+  " NeoBundleSource 'Solarized'
+  " colorscheme Solarized
 endif
 " }}}
 
