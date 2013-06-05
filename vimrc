@@ -9,7 +9,7 @@ endif
 call neobundle#rc(expand('~/.vim/bundle/'))
 
 " Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
+NeoBundleFetch 'Shougo/neobundle'
 
 " Recommended to install
 " After install, turn shell ~/.vim/bundle/vimproc, (n,g)make -f your_machines_makefile
@@ -22,7 +22,16 @@ NeoBundle 'Shougo/vimproc', {
       \ },
       \ }
 
-" Original repos on github
+NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neosnippet', {
+  \ 'depends' : 'Shougo/neocomplcache'
+  \ }
+
+NeoBundleLazy 'Shougo/neocomplcache-rsense', {
+  \ 'depends'  : 'Shougo/neocomplcache',
+  \ 'autoload' : { 'filetypes' : 'ruby' }}
+
+
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundleLazy 'pangloss/vim-javascript', {
   \ 'autoload' : { 'filetypes' : 'javascript' }}
@@ -31,24 +40,12 @@ NeoBundle 'rstacruz/sparkup', {'rtp': 'vim/ftplugin'}
 NeoBundle 'tpope/vim-fugitive' 
 NeoBundleLazy 'tpope/vim-rails.git', {
   \ 'autoload' : { 'filetypes' : 'ruby' }}
+NeoBundleLazy 'kchmck/vim-coffee-script', {
+  \ 'autoload' : { 'filetypes' : 'coffee' }}
 
 NeoBundle 'tpope/vim-surround'
 " NeoBundle 'thoughtbot/vim-rspec'
 NeoBundle 'skwp/vim-rspec'
-
-NeoBundleLazy 'Shougo/neocomplcache.vim', {
-  \ 'autoload': {
-  \   'insert' : 1,
-  \ }}
-
-NeoBundleLazy 'Shougo/neosnippet.vim', {
-  \ 'autoload': {
-  \   'insert' : 1,
-  \ }}
-
-NeoBundle 'Shougo/neocomplcache-rsense.vim', {
-  \ 'depends'  : 'Shugo/neocomplcache.vim',
-  \ 'autoload' : { 'filetypes' : 'ruby' }}
 
 NeoBundle 'taichouchou2/alpaca_powertabline'
 NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
