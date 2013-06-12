@@ -191,9 +191,6 @@ autocmd! BufWritePre fuck
 autocmd! BufWritePre ' 
       \ try | echoerr 'This file should not be saved: ' . expand('<afile>') | endtry
 
-" nnoremap <Leader>a :call RunCurrentSpecFile()<CR>
-" nnoremap <Leader>s :call RunNearestSpec()<CR>
-" nnoremap <Leader>l :call RunLastSpec()<CR>
 nnoremap <Leader>a  :RunSpec<CR>
 nnoremap <Leader>l  :RunSpecLine<CR>
 nnoremap <Leader>al :RunSpecs<CR>
@@ -302,7 +299,7 @@ function! s:warningMsg(msg)
 endfunction
 " }}}
 
-" vimgrep     ------------------------------------------------------ {{{
+" Vimgrep     ------------------------------------------------------ {{{
 autocmd QuickFixCmdPost *grep* cwindow
 
 nnoremap [q :cprevious<CR>   " To Previous 
@@ -423,45 +420,3 @@ iabbrev parmas params
 
 " More File Types
 au BufNewFile,BufRead *.thor set filetype=ruby
-
-" Quickrunx x vimproc x rspec
-" let g:quickrun_config = {}
-" 
-" augroup QrunRSpec
-"   autocmd!
-"   autocmd BufWinEnter,BufNewFile *_spec.rb set filetype=ruby.rspec
-" augroup END
-" 
-" let g:quickrun_config._ = {'runner' : 'vimproc'}
-" 
-" let g:quickrun_config['rspec/normal'] = {
-"   \ 'type':       'rspec/normal',
-"   \ 'command':    'rspec',
-"   \ 'exec':       'rspec',
-"   \ 'outputter/buffer/filetype': 'rspec-result',
-"   \ 'vsplit': ''
-"   \ }
-" 
-" let g:quickrun_config['rspec/spring'] = {
-"   \ 'type':        'rspec/spring',
-"   \ 'command':     'rspec',
-"   \ 'exec':        './bin/rspec %s',
-"   \ 'outputter/buffer/filetype': 'rspec-result',
-"   \ 'vsplit': ''
-"   \ }
-" 
-" let g:quickrun_config['rspec/bundle'] = {
-"   \ 'type':        'rspec/bundle',
-"   \ 'command':     'rspec',
-"   \ 'exec':        'bundle exec %c %s',
-"   \ 'outputter/buffer/filetype': 'rspec-result',
-"   \ 'vsplit': ''
-"   \}
-" 
-" function! RspecQuickrun()
-"   " let b:quickrun_config = { 'type' : 'rspec/bundle' }
-"   " let b:quickrun_config = { 'type' : 'rspec/normal' }
-"   let b:quickrun_config = { 'type' : 'rspec/spring' }
-" endfunction
-
-" autocmd BufReadPost *_spec.rb call RspecQuickrun()
