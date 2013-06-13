@@ -2,14 +2,14 @@
 set nocompatible
 filetype off
 
+" Initialize NeoBundle
 if has('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
-
 call neobundle#rc(expand('~/.vim/bundle/'))
 
 " Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
+NeoBundleFetch 'Shougo/neobundle'
 
 " Recommended to install
 " After install, turn shell ~/.vim/bundle/vimproc, (n,g)make -f your_machines_makefile
@@ -22,19 +22,31 @@ NeoBundle 'Shougo/vimproc', {
       \ },
       \ }
 
-" Original repos on github
-NeoBundle 'Lokaltog/vim-easymotion'
-NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'rstacruz/sparkup', {'rtp': 'vim/'}
+NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neosnippet', {
+  \ 'depends' : 'Shougo/neocomplcache'
+  \ }
 
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'tpope/vim-rails.git'
+NeoBundleLazy 'Shougo/neocomplcache-rsense', {
+  \ 'depends'  : 'Shougo/neocomplcache',
+  \ 'autoload' : { 'filetypes' : 'ruby' }}
+
+
+NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundleLazy 'pangloss/vim-javascript', {
+  \ 'autoload' : { 'filetypes' : 'javascript' }}
+NeoBundle 'rstacruz/sparkup', {'rtp': 'vim/ftplugin'}
+
+NeoBundle 'tpope/vim-fugitive' 
+NeoBundleLazy 'tpope/vim-rails.git', {
+  \ 'autoload' : { 'filetypes' : 'ruby' }}
+NeoBundleLazy 'kchmck/vim-coffee-script', {
+  \ 'autoload' : { 'filetypes' : 'coffee' }}
+
 NeoBundle 'tpope/vim-surround'
 " NeoBundle 'thoughtbot/vim-rspec'
 NeoBundle 'skwp/vim-rspec'
-NeoBundle 'Shougo/neocomplcache.vim'
-NeoBundle 'Shougo/neosnippet.vim'
-NeoBundle 'Shougo/neocomplcache-rsense.vim'
+
 NeoBundle 'taichouchou2/alpaca_powertabline'
 NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
 NeoBundle 'godlygeek/tabular'
@@ -42,23 +54,17 @@ NeoBundle 'majutsushi/tagbar'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'tomtom/tcomment_vim'
-NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'scrooloose/nerdtree', { 'augroup' : 'NERDTreeHijackNetrw'}
 NeoBundle 'vim-scripts/YankRing.vim'
 NeoBundle 'kchmck/vim-coffee-script'
 
 NeoBundle 'evanmiller/nginx-vim-syntax'
 
 " Color Scheme
-NeoBundle 'tomasr/molokai'
-NeoBundle 'Solarized'
-NeoBundle 'sjl/badwolf'
+NeoBundleLazy 'tomasr/molokai'
+NeoBundleLazy 'Solarized'
+NeoBundle     'sjl/badwolf'
 
-
-" Non github repos
-
-" Non git repos
-
-"...
 filetype plugin indent on
 
 " Brief help
@@ -68,7 +74,6 @@ filetype plugin indent on
 
 " Installation check.
 NeoBundleCheck
-
 
 " }}}
 
@@ -148,14 +153,15 @@ set noshowmode    "Hide the default mode text (e.g. -- INSERT -- below the statu
 " {{{ Color Settings
 set t_Co=256
 syntax on
-
 set background=dark
+
 colorscheme badwolf
 
 " MacVimで動かしたときはSolarizedのdarkを適用
 if has("gui_macvim")
   set background=dark
-  colorscheme solarized
+  " NeoBundleSource 'Solarized'
+  " colorscheme Solarized
 endif
 " }}}
 
@@ -188,9 +194,6 @@ autocmd! BufWritePre fuck
 autocmd! BufWritePre ' 
       \ try | echoerr 'This file should not be saved: ' . expand('<afile>') | endtry
 
-" nnoremap <Leader>a :call RunCurrentSpecFile()<CR>
-" nnoremap <Leader>s :call RunNearestSpec()<CR>
-" nnoremap <Leader>l :call RunLastSpec()<CR>
 nnoremap <Leader>a  :RunSpec<CR>
 nnoremap <Leader>l  :RunSpecLine<CR>
 nnoremap <Leader>al :RunSpecs<CR>
@@ -301,7 +304,7 @@ function! s:warningMsg(msg)
 endfunction
 " }}}
 
-" vimgrep     ------------------------------------------------------ {{{
+" Vimgrep     ------------------------------------------------------ {{{
 autocmd QuickFixCmdPost *grep* cwindow
 
 nnoremap [q :cprevious<CR>   " To Previous 
@@ -422,45 +425,3 @@ iabbrev parmas params
 
 " More File Types
 au BufNewFile,BufRead *.thor set filetype=ruby
-
-" Quickrunx x vimproc x rspec
-" let g:quickrun_config = {}
-" 
-" augroup QrunRSpec
-"   autocmd!
-"   autocmd BufWinEnter,BufNewFile *_spec.rb set filetype=ruby.rspec
-" augroup END
-" 
-" let g:quickrun_config._ = {'runner' : 'vimproc'}
-" 
-" let g:quickrun_config['rspec/normal'] = {
-"   \ 'type':       'rspec/normal',
-"   \ 'command':    'rspec',
-"   \ 'exec':       'rspec',
-"   \ 'outputter/buffer/filetype': 'rspec-result',
-"   \ 'vsplit': ''
-"   \ }
-" 
-" let g:quickrun_config['rspec/spring'] = {
-"   \ 'type':        'rspec/spring',
-"   \ 'command':     'rspec',
-"   \ 'exec':        './bin/rspec %s',
-"   \ 'outputter/buffer/filetype': 'rspec-result',
-"   \ 'vsplit': ''
-"   \ }
-" 
-" let g:quickrun_config['rspec/bundle'] = {
-"   \ 'type':        'rspec/bundle',
-"   \ 'command':     'rspec',
-"   \ 'exec':        'bundle exec %c %s',
-"   \ 'outputter/buffer/filetype': 'rspec-result',
-"   \ 'vsplit': ''
-"   \}
-" 
-" function! RspecQuickrun()
-"   " let b:quickrun_config = { 'type' : 'rspec/bundle' }
-"   " let b:quickrun_config = { 'type' : 'rspec/normal' }
-"   let b:quickrun_config = { 'type' : 'rspec/spring' }
-" endfunction
-
-" autocmd BufReadPost *_spec.rb call RspecQuickrun()
