@@ -15,7 +15,6 @@ NeoBundleFetch 'Shougo/neobundle'
 " After install, turn shell ~/.vim/bundle/vimproc, (n,g)make -f your_machines_makefile
 NeoBundle 'Shougo/vimproc', {
       \ 'build' : {
-      \ 'windows' : 'make -f make_mingw32.mak',
       \ 'cygwin' : 'make -f make_cygwin.mak',
       \ 'mac' : 'make -f make_mac.mak',
       \ 'unix' : 'make -f make_unix.mak',
@@ -31,20 +30,17 @@ NeoBundleLazy 'Shougo/neocomplcache-rsense', {
   \ 'depends'  : 'Shougo/neocomplcache',
   \ 'autoload' : { 'filetypes' : 'ruby' }}
 
-
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundleLazy 'pangloss/vim-javascript', {
   \ 'autoload' : { 'filetypes' : 'javascript' }}
 NeoBundle 'rstacruz/sparkup', {'rtp': 'vim/ftplugin'}
 
 NeoBundle 'tpope/vim-fugitive' 
-NeoBundleLazy 'tpope/vim-rails.git', {
-  \ 'autoload' : { 'filetypes' : 'ruby' }}
+NeoBundle 'tpope/vim-rails.git'
 NeoBundleLazy 'kchmck/vim-coffee-script', {
   \ 'autoload' : { 'filetypes' : 'coffee' }}
 
 NeoBundle 'tpope/vim-surround'
-" NeoBundle 'thoughtbot/vim-rspec'
 NeoBundle 'skwp/vim-rspec'
 
 NeoBundle 'taichouchou2/alpaca_powertabline'
