@@ -44,6 +44,9 @@ NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'vim-scripts/YankRing.vim'
+NeoBundle 'kchmck/vim-coffee-script'
+
+NeoBundle 'evanmiller/nginx-vim-syntax'
 
 " Color Scheme
 NeoBundle 'tomasr/molokai'
@@ -246,6 +249,8 @@ nmap <silent> <Leader>m :TagbarToggle<CR>
 
 " ctrlP ---------------------------------------------------------------- {{{
 let g:ctrlp_map = "<Leader>t"
+nnoremap <Leader>b :CtrlPBuffer<cr>
+nnoremap <Leader>f :CtrlPClearCache<cr>
 let g:ctrlp_match_window_bottom   = 0
 let g:ctrlp_match_window_reversed = 0
 " }}}
