@@ -22,14 +22,14 @@ NeoBundle 'Shougo/vimproc', {
       \ },
       \ }
 
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Shougo/neosnippet', {
-  \ 'depends' : 'Shougo/neocomplcache'
-  \ }
-
-NeoBundleLazy 'Shougo/neocomplcache-rsense', {
-  \ 'depends'  : 'Shougo/neocomplcache',
-  \ 'autoload' : { 'filetypes' : 'ruby' }}
+" NeoBundle 'Shougo/neocomplcache'
+" NeoBundle 'Shougo/neosnippet', {
+"   \ 'depends' : 'Shougo/neocomplcache'
+"   \ }
+" 
+" NeoBundleLazy 'Shougo/neocomplcache-rsense', {
+"   \ 'depends'  : 'Shougo/neocomplcache',
+"   \ 'autoload' : { 'filetypes' : 'ruby' }}
 
 
 NeoBundle 'Lokaltog/vim-easymotion'
@@ -38,14 +38,13 @@ NeoBundleLazy 'pangloss/vim-javascript', {
 NeoBundle 'rstacruz/sparkup', {'rtp': 'vim/ftplugin'}
 
 NeoBundle 'tpope/vim-fugitive' 
-NeoBundleLazy 'tpope/vim-rails.git', {
-  \ 'autoload' : { 'filetypes' : 'ruby' }}
+NeoBundle 'tpope/vim-rails.git'
 NeoBundleLazy 'kchmck/vim-coffee-script', {
   \ 'autoload' : { 'filetypes' : 'coffee' }}
 
 NeoBundle 'tpope/vim-surround'
-" NeoBundle 'thoughtbot/vim-rspec'
-NeoBundle 'skwp/vim-rspec'
+NeoBundle 'thoughtbot/vim-rspec'
+" NeoBundle 'skwp/vim-rspec'
 
 NeoBundle 'taichouchou2/alpaca_powertabline'
 NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
@@ -56,14 +55,14 @@ NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'scrooloose/nerdtree', { 'augroup' : 'NERDTreeHijackNetrw'}
 NeoBundle 'vim-scripts/YankRing.vim'
-NeoBundle 'kchmck/vim-coffee-script'
-
-NeoBundle 'evanmiller/nginx-vim-syntax'
+NeoBundleLazy 'evanmiller/nginx-vim-syntax', {
+  \ 'autoload' : {'filetypes' : 'nginx'}}
 
 " Color Scheme
 NeoBundleLazy 'tomasr/molokai'
 NeoBundleLazy 'Solarized'
 NeoBundle     'sjl/badwolf'
+NeoBundle     'noahfrederick/Hemisu.git'
 
 filetype plugin indent on
 
@@ -87,6 +86,9 @@ set backspace=2 " make backspace work like most other apps
 " Apply .vimrc immidiately after saving .vimrc
 autocmd! BufWritePost .vimrc source ~/.vimrc
 
+" Show White Spaces
+set listchars=tab:>-,trail:~,extends:>,precedes:<
+set list
 
 
 " }}}
@@ -153,16 +155,18 @@ set noshowmode    "Hide the default mode text (e.g. -- INSERT -- below the statu
 " {{{ Color Settings
 set t_Co=256
 syntax on
-set background=dark
+" set background=dark
+set background=light
 
-colorscheme badwolf
+" colorscheme badwolf
+colorscheme hemisu
 
 " MacVimで動かしたときはSolarizedのdarkを適用
-if has("gui_macvim")
-  set background=dark
-  " NeoBundleSource 'Solarized'
-  " colorscheme Solarized
-endif
+" if has("gui_macvim")
+"   set background=dark
+"   " NeoBundleSource 'Solarized'
+"   " colorscheme Solarized
+" endif
 " }}}
 
 " Bell Settings--------------------------------------------------------- {{{
@@ -193,10 +197,6 @@ autocmd! BufWritePre fuck
       \ try | echoerr 'Hey thats not nice to call a file ' . expand('<afile>') | endtry
 autocmd! BufWritePre ' 
       \ try | echoerr 'This file should not be saved: ' . expand('<afile>') | endtry
-
-nnoremap <Leader>a  :RunSpec<CR>
-nnoremap <Leader>l  :RunSpecLine<CR>
-nnoremap <Leader>al :RunSpecs<CR>
 
 " }}}
 
@@ -314,114 +314,116 @@ nnoremap ]Q :<C-u>clast<CR>  " To Last
 
 " }}}
 
-" neocomplcache ----------------------------------------------------- {{{
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplcache.
-let g:neocomplcache_enable_at_startup = 1
-" Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplcache_min_syntax_length = 3
-let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
-
-" Enable heavy features.
-" Use camel case completion.
-"let g:neocomplcache_enable_camel_case_completion = 1
-" Use underbar completion.
-"let g:neocomplcache_enable_underbar_completion = 1
-
-" Define dictionary.
-let g:neocomplcache_dictionary_filetype_lists = {
-    \ 'default'  : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme'   : $HOME.'/.gosh_completions'
-        \ }
-
-" Define keyword.
-if !exists('g:neocomplcache_keyword_patterns')
-    let g:neocomplcache_keyword_patterns = {}
-endif
-let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplcache#undo_completion()
-inoremap <expr><C-l>     neocomplcache#complete_common_string()
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-
-function! s:my_cr_function()
-  " return neocomplcache#smart_close_popup() . "\<CR>"
-  " For no inserting <CR> key.
-  return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
-endfunction
-
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h>  neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS>   neocomplcache#smart_close_popup()."\<C-h>"
-
-inoremap <expr><C-y>  neocomplcache#close_popup()
-inoremap <expr><C-e>  neocomplcache#cancel_popup()
-" Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
-
-" Enable omni completion.
-autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript    setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python        setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml           setlocal omnifunc=xmlcomplete#CompleteTags
-
-" Enable heavy omni completion.
-if !exists('g:neocomplcache_omni_patterns')
-  let g:neocomplcache_omni_patterns = {}
-endif
-" let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-" let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-" let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+" " neocomplcache ----------------------------------------------------- {{{
+" " Disable AutoComplPop.
+" let g:acp_enableAtStartup = 0
+" " Use neocomplcache.
+" let g:neocomplcache_enable_at_startup = 1
+" " Use smartcase.
+" let g:neocomplcache_enable_smart_case = 1
+" " Set minimum syntax keyword length.
+" let g:neocomplcache_min_syntax_length = 3
+" let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+" 
+" " Enable heavy features.
+" " Use camel case completion.
+" "let g:neocomplcache_enable_camel_case_completion = 1
+" " Use underbar completion.
+" "let g:neocomplcache_enable_underbar_completion = 1
+" 
+" " Define dictionary.
+" let g:neocomplcache_dictionary_filetype_lists = {
+"     \ 'default'  : '',
+"     \ 'vimshell' : $HOME.'/.vimshell_hist',
+"     \ 'scheme'   : $HOME.'/.gosh_completions'
+"         \ }
+" 
+" " Define keyword.
+" if !exists('g:neocomplcache_keyword_patterns')
+"     let g:neocomplcache_keyword_patterns = {}
+" endif
+" let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+" 
+" " Plugin key-mappings.
+" inoremap <expr><C-g>     neocomplcache#undo_completion()
+" inoremap <expr><C-l>     neocomplcache#complete_common_string()
+" 
+" " Recommended key-mappings.
+" " <CR>: close popup and save indent.
+" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+" 
+" function! s:my_cr_function()
+"   " return neocomplcache#smart_close_popup() . "\<CR>"
+"   " For no inserting <CR> key.
+"   return pumvisible() ? neocomplcache#close_popup() : "\<CR>"
+" endfunction
+" 
+" " <TAB>: completion.
+" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" 
+" " <C-h>, <BS>: close popup and delete backword char.
+" inoremap <expr><C-h>  neocomplcache#smart_close_popup()."\<C-h>"
+" inoremap <expr><BS>   neocomplcache#smart_close_popup()."\<C-h>"
+" 
+" inoremap <expr><C-y>  neocomplcache#close_popup()
+" inoremap <expr><C-e>  neocomplcache#cancel_popup()
+" " Close popup by <Space>.
+" "inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
+" 
+" " Enable omni completion.
+" autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
+" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+" autocmd FileType javascript    setlocal omnifunc=javascriptcomplete#CompleteJS
+" autocmd FileType python        setlocal omnifunc=pythoncomplete#Complete
+" autocmd FileType xml           setlocal omnifunc=xmlcomplete#CompleteTags
+" 
+" " Enable heavy omni completion.
+" if !exists('g:neocomplcache_omni_patterns')
+"   let g:neocomplcache_omni_patterns = {}
+" endif
+" " let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+" " let g:neocomplcache_omni_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+" " let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 " }}}
 
-" neosnippet ------------------------------------------------------- {{{
-" Plugin key-mappings.
-imap <C-k> <Plug>(neosnippet_expand_or_jump)
-smap <C-k> <Plug>(neosnippet_expand_or_jump)
-xmap <C-k> <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: pumvisible() ? "\<C-n>" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)"
-\: "\<TAB>"
-
-" Enable snipMate compatibility feature.
-" let g:neosnippet#enable_snipmate_compatibility = 1
-
-" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/snippets'
-
-" For snippet_complete marker.
-if has('conceal')
-  set conceallevel=2 concealcursor=i
-endif
-" }}}
+" " neosnippet ------------------------------------------------------- {{{
+" " Plugin key-mappings.
+" imap <C-k> <Plug>(neosnippet_expand_or_jump)
+" smap <C-k> <Plug>(neosnippet_expand_or_jump)
+" xmap <C-k> <Plug>(neosnippet_expand_target)
+" 
+" " SuperTab like snippets behavior.
+" imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)"
+" \: pumvisible() ? "\<C-n>" : "\<TAB>"
+" smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+" \ "\<Plug>(neosnippet_expand_or_jump)"
+" \: "\<TAB>"
+" 
+" " Enable snipMate compatibility feature.
+" " let g:neosnippet#enable_snipmate_compatibility = 1
+" 
+" " Tell Neosnippet about the other snippets
+" let g:neosnippet#snippets_directory='~/.vim/snippets'
+" 
+" " For snippet_complete marker.
+" if has('conceal')
+"   set conceallevel=2 concealcursor=i
+" endif
+" " }}}
 
 " vim-rspec--------------------------------------------------------- {{{
-let g:RspecKeymap=0
-let g:RspecSplitHorizontal=0
+nnoremap <Leader>a :call RunCurrentSpecFile()<CR>
+nnoremap <Leader>s :call RunNearestSpec()<CR>
+nnoremap <Leader>l :call RunLastSpec()<CR>
+" let g:RspecKeymap=0
+" let g:RspecSplitHorizontal=0
 " }}}}
-
-" なにこれ？
-autocmd QuickfixCmdPost make copen
 
 " Abbreviations
 iabbrev parmas params
 
 " More File Types
-au BufNewFile,BufRead *.thor set filetype=ruby
+au BufNewFile,BufRead *.coffee    set filetype=ruby
+au BufNewFile,BufRead *.thor      set filetype=ruby
+au BufNewFile,BufRead *nginx.conf set filetype=nginx
