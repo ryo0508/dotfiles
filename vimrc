@@ -42,7 +42,6 @@ NeoBundleLazy 'kchmck/vim-coffee-script', {
 
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'thoughtbot/vim-rspec'
-" NeoBundle 'skwp/vim-rspec'
 
 NeoBundle 'taichouchou2/alpaca_powertabline'
 NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}

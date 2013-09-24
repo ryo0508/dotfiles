@@ -128,3 +128,5 @@ setopt share_history        # share command history data
 # ================================================================
 export PERL_CPANM_OPT="--local-lib=$HOME/.perl-extlib"
 export PERL5LIB="$HOME/.perl-extlib/lib/perl5:$PERL5LIB"
+
+. /usr/local/etc/profile.d/z.sh
