@@ -130,3 +130,6 @@ export PERL_CPANM_OPT="--local-lib=$HOME/.perl-extlib"
 export PERL5LIB="$HOME/.perl-extlib/lib/perl5:$PERL5LIB"
 
 . /usr/local/etc/profile.d/z.sh
+
+export PATH=$PATH:/usr/local/share/npm/bin
+export NPM_CONFIG_PREFIX=$HOME/.npm

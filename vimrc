@@ -61,6 +61,9 @@ NeoBundleLazy 'Solarized'
 NeoBundle     'sjl/badwolf'
 NeoBundle     'noahfrederick/Hemisu.git'
 
+" Titanium開発用
+" NeoBundle     'pekepeke/titanium-vim.git'
+
 filetype plugin indent on
 
 " Brief help
