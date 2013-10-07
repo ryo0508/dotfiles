@@ -15,17 +15,17 @@ NeoBundleFetch 'Shougo/neobundle'
 " After install, turn shell ~/.vim/bundle/vimproc, (n,g)make -f your_machines_makefile
 NeoBundle 'Shougo/vimproc', {
       \ 'build' : {
-      \ 'cygwin' : 'make -f make_cygwin.mak',
-      \ 'mac' : 'make -f make_mac.mak',
-      \ 'unix' : 'make -f make_unix.mak',
+      \   'cygwin'  : 'make -f make_cygwin.mak',
+      \   'mac'     : 'make -f make_mac.mak',
+      \   'unix'    : 'make -f make_unix.mak',
       \ },
       \ }
 
-" NeoBundle 'Shougo/neocomplcache'
-" NeoBundle 'Shougo/neosnippet', {
-"   \ 'depends' : 'Shougo/neocomplcache'
-"   \ }
-" 
+NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neosnippet', {
+  \ 'depends' : 'Shougo/neocomplcache'
+  \ }
+
 " NeoBundleLazy 'Shougo/neocomplcache-rsense', {
 "   \ 'depends'  : 'Shougo/neocomplcache',
 "   \ 'autoload' : { 'filetypes' : 'ruby' }}
@@ -386,31 +386,31 @@ nnoremap ]Q :<C-u>clast<CR>  " To Last
 " " let g:neocomplcache_omni_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 " }}}
 
-" " neosnippet ------------------------------------------------------- {{{
-" " Plugin key-mappings.
-" imap <C-k> <Plug>(neosnippet_expand_or_jump)
-" smap <C-k> <Plug>(neosnippet_expand_or_jump)
-" xmap <C-k> <Plug>(neosnippet_expand_target)
-" 
-" " SuperTab like snippets behavior.
-" imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-" \ "\<Plug>(neosnippet_expand_or_jump)"
-" \: pumvisible() ? "\<C-n>" : "\<TAB>"
-" smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-" \ "\<Plug>(neosnippet_expand_or_jump)"
-" \: "\<TAB>"
-" 
-" " Enable snipMate compatibility feature.
-" " let g:neosnippet#enable_snipmate_compatibility = 1
-" 
-" " Tell Neosnippet about the other snippets
-" let g:neosnippet#snippets_directory='~/.vim/snippets'
-" 
-" " For snippet_complete marker.
-" if has('conceal')
-"   set conceallevel=2 concealcursor=i
-" endif
-" " }}}
+" neosnippet ------------------------------------------------------- {{{
+" Plugin key-mappings.
+imap <C-k> <Plug>(neosnippet_expand_or_jump)
+smap <C-k> <Plug>(neosnippet_expand_or_jump)
+xmap <C-k> <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: pumvisible() ? "\<C-n>" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)"
+\: "\<TAB>"
+
+" Enable snipMate compatibility feature.
+let g:neosnippet#enable_snipmate_compatibility = 1
+
+" Tell Neosnippet about the other snippets
+let g:neosnippet#snippets_directory='~/.vim/snippets'
+
+" For snippet_complete marker.
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
+" }}}
 
 " vim-rspec--------------------------------------------------------- {{{
 nnoremap <Leader>a :call RunCurrentSpecFile()<CR>
@@ -424,6 +424,6 @@ nnoremap <Leader>l :call RunLastSpec()<CR>
 iabbrev parmas params
 
 " More File Types
-au BufNewFile,BufRead *.coffee    set filetype=ruby
+au BufNewFile,BufRead *.coffee    set filetype=coffee
 au BufNewFile,BufRead *.thor      set filetype=ruby
 au BufNewFile,BufRead *nginx.conf set filetype=nginx
