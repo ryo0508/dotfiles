@@ -6,40 +6,55 @@
 # ${fg[...]} や $reset_color をロード
 autoload -U colors && colors
 
+# ----------------------------------------------------------------------
+# Gitレポジトリ内でのGitのStatus表示
+# ----------------------------------------------------------------------
 function rprompt-git-current-branch {
-local name st color
+  local name st color
 
-if [[ "$PWD" =~ '/\.git(/.*)?$' ]]; then
-  return
-fi
-name=$(basename "`git symbolic-ref HEAD 2> /dev/null`")
-if [[ -z $name ]]; then
-  return
-fi
-st=`git status 2> /dev/null`
-if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
-  color=${fg[green]}
-elif [[ -n `echo "$st" | grep "^nothing added"` ]]; then
-  color=${fg[yellow]}
-elif [[ -n `echo "$st" | grep "^# Untracked"` ]]; then
-  color=${fg_bold[red]}
-else
-  color=${fg[red]}
-fi
+  if [[ "$PWD" =~ '/\.git(/.*)?$' ]]; then
+    return
+  fi
+  name=$(basename "`git symbolic-ref HEAD 2> /dev/null`")
+  if [[ -z $name ]]; then
+    return
+  fi
 
-# %{...%} は囲まれた文字列がエスケープシーケンスであることを明示する
-# これをしないと右プロンプトの位置がずれる
-echo "%{$color%}$name%{$reset_color%} "
+  st=`git status 2> /dev/null`
+
+  if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
+    color=${fg[green]}
+  elif [[ -n `echo "$st" | grep "^nothing added"` ]]; then
+    color=${fg[yellow]}
+  elif [[ -n `echo "$st" | grep "^# Untracked"` ]]; then
+    color=${fg_bold[red]}
+  else
+    color=${fg[red]}
+  fi
+
+  # %{...%} は囲まれた文字列がエスケープシーケンスであることを明示する
+  # これをしないと右プロンプトの位置がずれる
+  echo "%{$color%}$name%{$reset_color%} "
 }
+
 # プロンプトが表示されるたびにプロンプト文字列を評価、置換する
 setopt prompt_subst
 RPROMPT='[`rprompt-git-current-branch`%~]'
 
+# ----------------------------------------------------------------------
+# Shellの表示について
+# ----------------------------------------------------------------------
 colors
 PROMPT="%{${fg[white]}%}%W %* %{${reset_color}%}%{${fg[green]}%}%2d %(!.#.$) %{${reset_color}%}"
 PROMPT2="%{${fg[green]}%}%_> %{${reset_color}%}"
 SPROMPT="%{${fg[red]}%}correct: %R -> %r [nyae]? %{${reset_color}%}"
 #RPROMPT="%{${fg[green]}%}%n@%m:{%${reset_color}%}[`rprompt-git-current-branch`%~]"
+
+# ----------------------------------------------------------------------
+# lsの色
+# ----------------------------------------------------------------------
+LSCOLORS=Gxfxcxdxbxegedabagacad
+CLICOLOR=1
 
 # If a command is not in the hash table, and there exists an executable directory by that name, perform the cd command to that directory.
 setopt AUTO_CD

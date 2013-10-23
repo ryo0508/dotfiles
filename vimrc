@@ -66,6 +66,8 @@ NeoBundle     'noahfrederick/Hemisu.git'
 " Titanium開発用
 NeoBundleLazy     'pekepeke/titanium-vim.git', {
   \ 'autoload' : { 'filetypes' : 'ruby' }}
+NeoBundleLazy     'digitaltoad/vim-jade', {
+  \ 'autoload' : { 'filetypes' : 'jade' }}
 
 filetype plugin indent on
 
@@ -371,7 +373,7 @@ inoremap <expr><BS>   neocomplcache#smart_close_popup()."\<C-h>"
 inoremap <expr><C-y>  neocomplcache#close_popup()
 inoremap <expr><C-e>  neocomplcache#cancel_popup()
 " Close popup by <Space>.
-inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
+" inoremap <expr><Space> pumvisible() ? neocomplcache#close_popup() : "\<Space>"
 
 " Enable omni completion.
 autocmd FileType css           setlocal omnifunc=csscomplete#CompleteCSS
@@ -429,4 +431,5 @@ iabbrev parmas params
 " More File Types
 au BufNewFile,BufRead *.coffee    set filetype=coffee
 au BufNewFile,BufRead *.thor      set filetype=ruby
+au BufNewFile,BufRead *.jade      set filetype=jade
 au BufNewFile,BufRead *nginx.conf set filetype=nginx

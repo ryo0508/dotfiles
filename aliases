@@ -47,6 +47,18 @@ alias mailtrap_log="tail -F /var/tmp/mailtrap.log | perl -MEncode -pe '\$_ = enc
 # Launch iPhoneSimulator
 alias ios_simulator='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
 
-# Rails Alias 
+# Rails Alias
 alias migrate="rake db:migrate && rake db:rollback && rake db:migrate && rake db:test:prepare"
 
+# Syntax Highlighter
+pbhighlight() {
+  if [ -n "$1" ]; then
+    pbpaste | highlight -O rtf --line-numbers --font-size 24 --font Ricty --style solarized-dark -W -J 50 -j 3 --src-lang $1 | pbcopy
+  else
+    pbpaste | highlight -O rtf --line-numbers --font-size 24 --font Ricty --style solarized-dark -W -J 50 -j 3 --src-lang ruby | pbcopy
+  fi
+}
+
+# http://stackoverflow.com/questions/9679932/how-to-use-package-installed-locally-in-node-modules
+alias npm-path='PATH=$(npm bin):$PATH'
+# nex(){ $(npm bin)/$@ }
