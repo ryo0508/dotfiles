@@ -61,4 +61,5 @@ pbhighlight() {
 
 # http://stackoverflow.com/questions/9679932/how-to-use-package-installed-locally-in-node-modules
 alias npm-path='PATH=$(npm bin):$PATH'
+alias bshadow='ti build -p ios -T device -P "A56B5EAD-37CB-419A-AB0B-C98FADBC31C3" -V "RYO SAKIKAWA (768C2BL949)"'
 # nex(){ $(npm bin)/$@ }

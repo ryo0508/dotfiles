@@ -35,7 +35,7 @@ NeoBundleLazy 'pangloss/vim-javascript', {
 NeoBundle 'rstacruz/sparkup', {'rtp': 'vim/ftplugin'}
 
 NeoBundle 'tpope/vim-fugitive'
-NeoBundleLazy 'tpope/vim-rails.git', {
+NeoBundleLazy 'tpope/vim-rails', {
   \ 'autoload' : { 'filetypes' : 'ruby' }}
 NeoBundleLazy 'kchmck/vim-coffee-script', {
   \ 'autoload' : { 'filetypes' : 'coffee' }}
@@ -289,6 +289,7 @@ set wildignore+=*/app/view/admin,*/coverage,*/bin   " Rails
 set wildignore+=*.lzo,*.zip,*.gz,*.tgz,*.tar              " Compressed files
 set wildignore+=*.log,BLANK,*.log.[0-9]*,*.lock,*.pid     " log, lock, pid files "
 set wildignore+=*.DS_Store                                " OS X
+set wildignore+=*/node_modules/*                          " node_modules
 " }}}
 
 " YankRing ------------------------------------------------------------- {{{
