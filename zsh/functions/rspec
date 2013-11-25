@@ -1,12 +1,12 @@
 #!/bin/sh
 
-rspec() {
-  echo $PWD
-  if [ -x bin/rspec ]; then
-    echo "using spring"
-    spring rspec "$@"
-  else
-    echo "running console spring"
-    command rspec "$@"
-  fi
-}
+# rspec() {
+#   echo $PWD
+#   if [ -x bin/rspec ]; then
+#     echo "using spring"
+#     spring rspec "$@"
+#   else
+#     echo "running console spring"
+#     command rspec "$@"
+#   fi
+# }

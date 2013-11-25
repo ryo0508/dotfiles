@@ -1,8 +1,10 @@
-rake() {
-  if [ -x bin/rake ]; then
-    echo "using spring"
-    spring rake "$@"
-  else
-    command rake "$@"
-  fi
-}
+#!/bin/sh
+
+# rake() {
+#   if [ -x bin/rake ]; then
+#     echo "using spring"
+#     spring rake "$@"
+#   else
+#     command rake "$@"
+#   fi
+# }

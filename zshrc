@@ -148,3 +148,13 @@ export PERL5LIB="$HOME/.perl-extlib/lib/perl5:$PERL5LIB"
 
 export PATH=$PATH:/usr/local/share/npm/bin
 export NPM_CONFIG_PREFIX=$HOME/.npm
+
+# ================================================================
+# rbenv
+# ================================================================
+eval "$(rbenv init -)"
+
+# ================================================================
+# direnv
+# ================================================================
+eval "$(direnv hook zsh)"
