@@ -152,7 +152,11 @@ export NPM_CONFIG_PREFIX=$HOME/.npm
 # ================================================================
 # rbenv
 # ================================================================
-eval "$(rbenv init -)"
+if [ -d ${HOME}/.rbenv ] ; then
+  PATH=${HOME}/.rbenv/bin:${PATH}
+  export PATH
+  eval "$(rbenv init -)"
+fi
 
 # ================================================================
 # direnv

@@ -4,24 +4,25 @@ filetype off
 
 " Initialize NeoBundle
 if has('vim_starting')
+  set nocompatible
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
+
 call neobundle#rc(expand('~/.vim/bundle/'))
 
 " Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle'
+NeoBundleFetch 'Shougo/neobundle.vim'
 
 " Recommended to install
 " After install, turn shell ~/.vim/bundle/vimproc, (n,g)make -f your_machines_makefile
 NeoBundle 'Shougo/vimproc', {
-      \ 'build' : {
-      \   'cygwin'  : 'make -f make_cygwin.mak',
-      \   'mac'     : 'make -f make_mac.mak',
-      \   'unix'    : 'make -f make_unix.mak',
-      \ },
+      \   'build' : {
+      \     'cygwin'  : 'make -f make_cygwin.mak',
+      \     'mac'     : 'make -f make_mac.mak',
+      \     'unix'    : 'make -f make_unix.mak',
+      \   },
       \ }
 
-" NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neocomplete'
 
 NeoBundle 'Shougo/neosnippet', {
@@ -55,11 +56,15 @@ NeoBundle 'godlygeek/tabular'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'kien/ctrlp.vim'
+" NeoBundle 'wincent/Command-T'
+" NeoBundle 'git://git.wincent.com/command-t.git'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'scrooloose/nerdtree', { 'augroup' : 'NERDTreeHijackNetrw'}
-NeoBundle 'vim-scripts/YankRing.vim'
+NeoBundle 'LeafCage/yankround.vim'
+" NeoBundle 'vim-scripts/YankRing.vim'
 NeoBundleLazy 'evanmiller/nginx-vim-syntax', {
   \ 'autoload' : {'filetypes' : 'nginx'}}
+NeoBundle 'osyo-manga/vim-over'
 
 " Color Scheme
 NeoBundleLazy 'tomasr/molokai'
@@ -68,8 +73,8 @@ NeoBundle     'sjl/badwolf'
 NeoBundle     'noahfrederick/Hemisu.git'
 
 " Titanium開発用
-NeoBundleLazy     'pekepeke/titanium-vim.git', {
-  \ 'autoload' : { 'filetypes' : 'ruby' }}
+" NeoBundleLazy     'pekepeke/titanium-vim.git', {
+"   \ 'autoload' : { 'filetypes' : 'ruby' }}
 NeoBundleLazy     'digitaltoad/vim-jade', {
   \ 'autoload' : { 'filetypes' : 'jade' }}
 
@@ -167,8 +172,8 @@ syntax on
 " set background=dark
 set background=light
 
-" colorscheme badwolf
-colorscheme hemisu
+colorscheme badwolf
+" colorscheme hemisu
 
 " MacVimで動かしたときはSolarizedのdarkを適用
 " if has("gui_macvim")
@@ -267,6 +272,12 @@ let g:ctrlp_match_window_bottom   = 0
 let g:ctrlp_match_window_reversed = 0
 " }}}
 
+" command-t ------------------------------------------------------ {{{
+" nmap <silent> <Leader>t :<C-u>CommandT<CR>
+" nmap <silent> <Leader>b :<C-u>CommandTBuffer<CR>
+" nmap <silent> <Leader>f :<C-u>CommandTFlush<CR>
+" }}}
+
 " Tabularize------------------------------------------------------------ {{{
 if exists("Tabularize")
   nmap <Leader>a= :Tabularize /=<CR>
@@ -297,8 +308,20 @@ set wildignore+=*/node_modules/*                          " node_modules
 " }}}
 
 " YankRing ------------------------------------------------------------- {{{
-let g:yankring_paste_v_akey = ''
-let g:yankring_paste_v_bkey = ''
+" let g:yankring_paste_v_akey = ''
+" let g:yankring_paste_v_bkey = ''
+" }}}
+
+" yankround.vim -------------------------------------------------------- {{{
+" キーマップ
+nmap p <Plug>(yankround-p)
+nmap P <Plug>(yankround-P)
+nmap <C-p> <Plug>(yankround-prev)
+nmap <C-n> <Plug>(yankround-next)
+" 履歴取得数
+let g:yankround_max_history = 50
+" 履歴一覧(kien/ctrlp.vim)
+nnoremap <silent>g<C-p> :<C-u>CtrlPYankRound<CR>
 " }}}
 
 " QuickRun --------------------------------------------------------- {{{
@@ -516,6 +539,18 @@ nnoremap <Leader>l :call RunLastSpec()<CR>
 " let g:RspecSplitHorizontal=0
 " }}}}
 
+" over.vim {{{
+
+" over.vimの起動
+nnoremap <silent> <Leader><Leader>m :OverCommandLine<CR>
+
+" カーソル下の単語をハイライト付きで置換
+nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
+
+" コピーした文字列をハイライト付きで置換
+nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
+" }}}
+
 " Abbreviations
 iabbrev parmas params
 
@@ -524,3 +559,24 @@ au BufNewFile,BufRead *.coffee    set filetype=coffee
 au BufNewFile,BufRead *.thor      set filetype=ruby
 au BufNewFile,BufRead *.jade      set filetype=jade
 au BufNewFile,BufRead *nginx.conf set filetype=nginx
+
+
+" Test
+" @see http://kannokanno.hatenablog.com/entry/20120403/1333462565
+
+" function! s:ToggleDone(line)
+"   if a:line =~ '^"\s*[D\]'
+"     call setline('.', substitute(a:line, '\[D\]', '[ ]', ''))
+"   else
+"     call setline('.', substitute(a:line, '\[ \]', '[D]', ''))
+"   end
+" endfunction
+" 
+" command! -nargs=0 MyTaskToggle call s:Done(getline('.'))
+
+" [ ] hogehoge
+" [ ] hogehoge
+" [D] hogehoge
+" [ ] hogehoge
+" [D] hogehoge
+" [ ] hogehoge
