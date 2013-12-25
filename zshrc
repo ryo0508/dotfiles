@@ -117,7 +117,6 @@ done
 ## zsh editor
 autoload zed
 
-
 ## terminal configuration
 zstyle ':completion:*' list-colors 'di=41' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;31'
 
@@ -136,7 +135,6 @@ HISTSIZE=50000
 SAVEHIST=50000
 setopt hist_ignore_dups     # ignore duplication command history list
 setopt share_history        # share command history data
-
 
 # ================================================================
 # Perl Settings
