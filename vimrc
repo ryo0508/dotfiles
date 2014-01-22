@@ -46,7 +46,8 @@ NeoBundleLazy 'kchmck/vim-coffee-script', {
   \ 'autoload' : { 'filetypes' : 'coffee' }}
 
 NeoBundleLazy 'thoughtbot/vim-rspec', {
-  \ 'autoload' : { 'filetypes' : 'ruby' }}
+  \ 'depends'  : 'tpope/vim-dispatch',
+  \ 'autoload' : { 'filetypes' : ['ruby'] }}
 
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'tpope/vim-surround'
@@ -538,6 +539,11 @@ nnoremap <Leader>l :call RunLastSpec()<CR>
 " let g:RspecKeymap=0
 " let g:RspecSplitHorizontal=0
 " }}}}
+"
+let s:bundle = neobundle#get('vim-rspec')
+function! s:bundle.hooks.on_source(bundle)
+   let g:rspec_command = 'Dispatch rspec {spec}'
+endfunction
 
 " over.vim {{{
 

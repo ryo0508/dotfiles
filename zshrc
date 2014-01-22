@@ -1,3 +1,24 @@
+# === 読み込まれるファイルと順番 =======================================
+#
+# @see http://masasuzu.hatenablog.jp/entry/20120506/1336286016
+#
+# 1. ログインシェルでzshを起動した時
+#   ~/.zshenv
+#   ~/.zprofile
+#   ~/.zshrc
+#   ~/.zlogin
+#
+# 2. インタラクティブシェルでzshを起動した時
+#   ~/.zshenv
+#   ~/.zshrc
+#
+# 3. シェルスクリプトとしてzshを起動した時
+#   ~/.zshenv
+#
+# 4. ログアウトする時
+#   ~/.zlogout
+# ======================================================================
+#
 ## Default shell configuration
 #
 # set prompt
@@ -151,9 +172,7 @@ export NPM_CONFIG_PREFIX=$HOME/.npm
 # rbenv
 # ================================================================
 if [ -d ${HOME}/.rbenv ] ; then
-  PATH=${HOME}/.rbenv/bin:${PATH}
-  export PATH
-  eval "$(rbenv init -)"
+  export PATH=${HOME}/.rbenv/bin:${PATH}
 fi
 
 # ================================================================
