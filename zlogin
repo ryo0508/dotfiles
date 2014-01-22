@@ -3,3 +3,6 @@ if [ ${COLUMNS} -gt 110 ]; then
 else
   toilet -w80 -f mono12.tlf "Welcome ${USER}"
 fi
+
+### Added by the Heroku Toolbelt
+export PATH="/usr/local/heroku/bin:$PATH"
