@@ -46,7 +46,8 @@ NeoBundleLazy 'kchmck/vim-coffee-script', {
   \ 'autoload' : { 'filetypes' : 'coffee' }}
 
 NeoBundleLazy 'thoughtbot/vim-rspec', {
-  \ 'autoload' : { 'filetypes' : 'ruby' }}
+  \ 'depends'  : 'tpope/vim-dispatch',
+  \ 'autoload' : { 'filetypes' : ['ruby'] }}
 
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'tpope/vim-surround'
@@ -538,6 +539,11 @@ nnoremap <Leader>l :call RunLastSpec()<CR>
 " let g:RspecKeymap=0
 " let g:RspecSplitHorizontal=0
 " }}}}
+"
+let s:bundle = neobundle#get('vim-rspec')
+function! s:bundle.hooks.on_source(bundle)
+   let g:rspec_command = 'Dispatch rspec {spec}'
+endfunction
 
 " over.vim {{{
 
@@ -563,20 +569,3 @@ au BufNewFile,BufRead *nginx.conf set filetype=nginx
 
 " Test
 " @see http://kannokanno.hatenablog.com/entry/20120403/1333462565
-
-" function! s:ToggleDone(line)
-"   if a:line =~ '^"\s*[D\]'
-"     call setline('.', substitute(a:line, '\[D\]', '[ ]', ''))
-"   else
-"     call setline('.', substitute(a:line, '\[ \]', '[D]', ''))
-"   end
-" endfunction
-" 
-" command! -nargs=0 MyTaskToggle call s:Done(getline('.'))
-
-" [ ] hogehoge
-" [ ] hogehoge
-" [D] hogehoge
-" [ ] hogehoge
-" [D] hogehoge
-" [ ] hogehoge
