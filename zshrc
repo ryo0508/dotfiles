@@ -1,181 +1,78 @@
-# === 読み込まれるファイルと順番 =======================================
-#
-# @see http://masasuzu.hatenablog.jp/entry/20120506/1336286016
-#
-# 1. ログインシェルでzshを起動した時
-#   ~/.zshenv
-#   ~/.zprofile
-#   ~/.zshrc
-#   ~/.zlogin
-#
-# 2. インタラクティブシェルでzshを起動した時
-#   ~/.zshenv
-#   ~/.zshrc
-#
-# 3. シェルスクリプトとしてzshを起動した時
-#   ~/.zshenv
-#
-# 4. ログアウトする時
-#   ~/.zlogout
-# ======================================================================
-#
-## Default shell configuration
-#
-# set prompt
-#
-# autoload colors
-# ${fg[...]} や $reset_color をロード
-autoload -U colors && colors
+# Path to your oh-my-zsh configuration.
+ZSH=$HOME/.oh-my-zsh
 
-# ----------------------------------------------------------------------
-# Gitレポジトリ内でのGitのStatus表示
-# ----------------------------------------------------------------------
-function rprompt-git-current-branch {
-  local name st color
+# Set name of the theme to load.
+# Look in ~/.oh-my-zsh/themes/
+# Optionally, if you set this to "random", it'll load a random theme each
+# time that oh-my-zsh is loaded.
+ZSH_THEME="ys"
 
-  if [[ "$PWD" =~ '/\.git(/.*)?$' ]]; then
-    return
-  fi
-  name=$(basename "`git symbolic-ref HEAD 2> /dev/null`")
-  if [[ -z $name ]]; then
-    return
-  fi
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
 
-  st=`git status 2> /dev/null`
+# Set to this to use case-sensitive completion
+# CASE_SENSITIVE="true"
 
-  if [[ -n `echo "$st" | grep "^nothing to"` ]]; then
-    color=${fg[green]}
-  elif [[ -n `echo "$st" | grep "^nothing added"` ]]; then
-    color=${fg[yellow]}
-  elif [[ -n `echo "$st" | grep "^# Untracked"` ]]; then
-    color=${fg_bold[red]}
-  else
-    color=${fg[red]}
-  fi
+# Uncomment this to disable bi-weekly auto-update checks
+# DISABLE_AUTO_UPDATE="true"
 
-  # %{...%} は囲まれた文字列がエスケープシーケンスであることを明示する
-  # これをしないと右プロンプトの位置がずれる
-  echo "%{$color%}$name%{$reset_color%} "
-}
+# Uncomment to change how often before auto-updates occur? (in days)
+# export UPDATE_ZSH_DAYS=13
 
-# プロンプトが表示されるたびにプロンプト文字列を評価、置換する
-setopt prompt_subst
-RPROMPT='[`rprompt-git-current-branch`%~]'
+# Uncomment following line if you want to disable colors in ls
+# DISABLE_LS_COLORS="true"
 
-# ----------------------------------------------------------------------
-# Shellの表示について
-# ----------------------------------------------------------------------
-colors
-PROMPT="%{${fg[white]}%}%W %* %{${reset_color}%}%{${fg[green]}%}%2d %(!.#.$) %{${reset_color}%}"
-PROMPT2="%{${fg[green]}%}%_> %{${reset_color}%}"
-SPROMPT="%{${fg[red]}%}correct: %R -> %r [nyae]? %{${reset_color}%}"
-#RPROMPT="%{${fg[green]}%}%n@%m:{%${reset_color}%}[`rprompt-git-current-branch`%~]"
+# Uncomment following line if you want to disable autosetting terminal title.
+# DISABLE_AUTO_TITLE="true"
 
-# ----------------------------------------------------------------------
-# lsの色
-# ----------------------------------------------------------------------
-LSCOLORS=Gxfxcxdxbxegedabagacad
-CLICOLOR=1
+# Uncomment following line if you want to disable command autocorrection
+# DISABLE_CORRECTION="true"
 
-# If a command is not in the hash table, and there exists an executable directory by that name, perform the cd command to that directory.
-setopt AUTO_CD
+# Uncomment following line if you want red dots to be displayed while waiting for completion
+# COMPLETION_WAITING_DOTS="true"
 
-# auto directory pushd that you can get dirs list by cd -[tab]
-DIRSTACKSIZE=20
-setopt AUTO_PUSHD
+# Uncomment following line if you want to disable marking untracked files under
+# VCS as dirty. This makes repository status check for large repositories much,
+# much faster.
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-# command correct edition before each completion attempt
-#
-setopt correct
+# Uncomment following line if you want to  shown in the command execution time stamp 
+# in the history command output. The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|
+# yyyy-mm-dd
+# HIST_STAMPS="mm/dd/yyyy"
 
-# compacked complete list display
-#
-setopt list_packed
+# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
+# Example format: plugins=(rails git textmate ruby lighthouse)
+plugins=(git rails ruby rbenv brew bundler)
 
-# no remove postfix slash of command line
-#
-setopt noautoremoveslash
+source $ZSH/oh-my-zsh.sh
 
-# no beep sound when complete list displayed
-#
-setopt nolistbeep
+# User configuration
 
+export PATH="/usr/local/heroku/bin:/Users/ryo/.rbenv/bin:/Users/ryo/.rbenv/shims:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/ryo/resources/android_sdk/tools:/Users/ryo/android-sdks/platform-tools::/usr/local/share/npm/bin"
+# export MANPATH="/usr/local/man:$MANPATH"
 
-## Keybind configuration
-#
-# emacs like keybind (e.x. Ctrl-a gets to line head and Ctrl-e gets
-#   to end) and something additions
-#
-bindkey -v
+# # Preferred editor for local and remote sessions
+# if [[ -n $SSH_CONNECTION ]]; then
+#   export EDITOR='vim'
+# else
+#   export EDITOR='mvim'
+# fi
 
-# historical backward/forward search with linehead string binded to ^P/^N
-#
-autoload history-search-end
-zle -N history-beginning-search-backward-end history-search-end
-zle -N history-beginning-search-forward-end history-search-end
-bindkey "^p" history-beginning-search-backward-end
-bindkey "^n" history-beginning-search-forward-end
-bindkey "\\ep" history-beginning-search-backward-end
-bindkey "\\en" history-beginning-search-forward-end
+# Compilation flags
+# export ARCHFLAGS="-arch x86_64"
 
-# reverse menu completion binded to Shift-Tab
-#
-# bindkey "\e[Z" reverse-menu-complete
+# ssh
+# export SSH_KEY_PATH="~/.ssh/dsa_id"
 
-# ================================================================
-# zsh-completions 
-# ================================================================
-autoload -Uz compinit && compinit
-export FPATH=/usr/local/share/zsh/site-functions:$FPATH:
-zstyle ':completion:*' menu select
-zstyle ':completion:*:cd:*' ignore-parents parent pwd
-zstyle ':completion:*:descriptions' format '%BCompleting%b %U%d%u'
+# Custom Aliases
+source ~/.aliases
 
-for function in ~/.zsh/functions/*; do
-  source $function
-done
-
-## zsh editor
-autoload zed
-
-## terminal configuration
-zstyle ':completion:*' list-colors 'di=41' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;31'
-
-# ================================================================
-# Alias
-# ================================================================
-if [ -e "$HOME/.aliases" ]; then
-  source "$HOME/.aliases"
-fi
-
-# ================================================================
-# History configuration
-# ================================================================
-HISTFILE=${HOME}/.zsh_history
-HISTSIZE=50000
-SAVEHIST=50000
-setopt hist_ignore_dups     # ignore duplication command history list
-setopt share_history        # share command history data
-
-# ================================================================
-# Perl Settings
-# ================================================================
-export PERL_CPANM_OPT="--local-lib=$HOME/.perl-extlib"
-export PERL5LIB="$HOME/.perl-extlib/lib/perl5:$PERL5LIB"
-
+# Z Command
+# @see http://qiita.com/ikm/items/0e498981c6b19ac8d19b
 . /usr/local/etc/profile.d/z.sh
-
-export PATH=$PATH:/usr/local/share/npm/bin
-export NPM_CONFIG_PREFIX=$HOME/.npm
-
-# ================================================================
-# rbenv
-# ================================================================
-if [ -d ${HOME}/.rbenv ] ; then
-  export PATH=${HOME}/.rbenv/bin:${PATH}
-fi
-
-# ================================================================
-# direnv
-# ================================================================
-eval "$(direnv hook zsh)"
+function _Z_precmd {
+  z --add "$(pwd -P)" 61 }
+  precmd_functions=($precmd_functions _Z_precmd)
