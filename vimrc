@@ -49,16 +49,19 @@ NeoBundleLazy 'thoughtbot/vim-rspec', {
   \ 'depends'  : 'tpope/vim-dispatch',
   \ 'autoload' : { 'filetypes' : ['ruby'] }}
 
+NeoBundleLazy 'tpope/vim-cucumber', {
+  \ 'autoload' : { 'filetypes' : 'feature' }}
+
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'tpope/vim-surround'
-NeoBundle 'taichouchou2/alpaca_powertabline'
+" NeoBundle 'taichouchou2/alpaca_powertabline'
 NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'kien/ctrlp.vim'
+" NeoBundle 'kien/ctrlp.vim'
 " NeoBundle 'wincent/Command-T'
-" NeoBundle 'git://git.wincent.com/command-t.git'
+NeoBundle 'git://git.wincent.com/command-t.git'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'scrooloose/nerdtree', { 'augroup' : 'NERDTreeHijackNetrw'}
 NeoBundle 'LeafCage/yankround.vim'
@@ -267,16 +270,16 @@ nmap <silent> <Leader>m :TagbarToggle<CR>
 
 " ctrlP ---------------------------------------------------------------- {{{
 let g:ctrlp_map = "<Leader>t"
-nnoremap <Leader>b :CtrlPBuffer<cr>
-nnoremap <Leader>f :CtrlPClearCache<cr>
-let g:ctrlp_match_window_bottom   = 0
-let g:ctrlp_match_window_reversed = 0
+" nnoremap <Leader>b :CtrlPBuffer<cr>
+" nnoremap <Leader>f :CtrlPClearCache<cr>
+" let g:ctrlp_match_window_bottom   = 0
+" let g:ctrlp_match_window_reversed = 0
 " }}}
 
 " command-t ------------------------------------------------------ {{{
-" nmap <silent> <Leader>t :<C-u>CommandT<CR>
-" nmap <silent> <Leader>b :<C-u>CommandTBuffer<CR>
-" nmap <silent> <Leader>f :<C-u>CommandTFlush<CR>
+nmap <silent> <Leader>t :<C-u>CommandT<CR>
+nmap <silent> <Leader>b :<C-u>CommandTBuffer<CR>
+nmap <silent> <Leader>f :<C-u>CommandTFlush<CR>
 " }}}
 
 " Tabularize------------------------------------------------------------ {{{
@@ -560,6 +563,53 @@ nnoremap sub :OverCommandLine<CR>%s/<C-r><C-w>//g<Left><Left>
 nnoremap subp y:OverCommandLine<CR>%s!<C-r>=substitute(@0, '!', '\\!', 'g')<CR>!!gI<Left><Left><Left>
 " }}}
 
+" tabline {{{
+" Anywhere SID.
+function! s:SID_PREFIX()
+  return matchstr(expand('<sfile>'), '<SNR>\d\+_\zeSID_PREFIX$')
+endfunction
+
+" Set tabline.
+function! s:my_tabline()  "{{{
+  let s = ''
+  for i in range(1, tabpagenr('$'))
+    let bufnrs = tabpagebuflist(i)
+    let bufnr = bufnrs[tabpagewinnr(i) - 1]  " first window, first appears
+    let no = i  " display 0-origin tabpagenr.
+    let mod = getbufvar(bufnr, '&modified') ? '!' : ' '
+    let title = fnamemodify(bufname(bufnr), ':t')
+    let title = '[' . title . ']'
+    let s .= '%'.i.'T'
+    let s .= '%#' . (i == tabpagenr() ? 'TabLineSel' : 'TabLine') . '#'
+    let s .= no . ':' . title
+    let s .= mod
+    let s .= '%#TabLineFill# '
+  endfor
+  let s .= '%#TabLineFill#%T%=%#TabLine#'
+  return s
+endfunction "}}}
+let &tabline = '%!'. s:SID_PREFIX() . 'my_tabline()'
+set showtabline=2 " 常にタブラインを表示
+
+" The prefix key.
+nnoremap    [Tag]   <Nop>
+nmap    t [Tag]
+" Tab jump
+for n in range(1, 9)
+  execute 'nnoremap <silent> [Tag]'.n  ':<C-u>tabnext'.n.'<CR>'
+endfor
+" t1 で1番左のタブ、t2 で1番左から2番目のタブにジャンプ
+
+map <silent> [Tag]c :tablast <bar> tabnew<CR>
+" tc 新しいタブを一番右に作る
+map <silent> [Tag]x :tabclose<CR>
+" tx タブを閉じる
+map <silent> [Tag]n :tabnext<CR>
+" tn 次のタブ
+map <silent> [Tag]p :tabprevious<CR>
+" tp 前のタブ
+" }}}
+
 " Abbreviations
 iabbrev parmas params
 
@@ -568,7 +618,3 @@ au BufNewFile,BufRead *.coffee    set filetype=coffee
 au BufNewFile,BufRead *.thor      set filetype=ruby
 au BufNewFile,BufRead *.jade      set filetype=jade
 au BufNewFile,BufRead *nginx.conf set filetype=nginx
-
-
-" Test
-" @see http://kannokanno.hatenablog.com/entry/20120403/1333462565
