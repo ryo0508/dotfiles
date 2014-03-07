@@ -277,6 +277,8 @@ let g:ctrlp_map = "<Leader>t"
 " }}}
 
 " command-t ------------------------------------------------------ {{{
+let g:CommandTMatchWindowAtTop = 1
+
 nmap <silent> <Leader>t :<C-u>CommandT<CR>
 nmap <silent> <Leader>b :<C-u>CommandTBuffer<CR>
 nmap <silent> <Leader>f :<C-u>CommandTFlush<CR>

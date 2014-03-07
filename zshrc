@@ -45,7 +45,15 @@ ZSH_THEME="ys"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git rbenv brew vi-mode)
+plugins=(
+  git
+  rbenv
+  brew
+  vi-mode
+  z
+  history
+  history-substring-search
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -70,13 +78,6 @@ export PATH="/usr/local/heroku/bin:/Users/ryo/.rbenv/bin:/Users/ryo/.rbenv/shims
 # Custom Aliases
 source ~/.aliases
 
-# Z Command
-# @see http://qiita.com/ikm/items/0e498981c6b19ac8d19b
-. /usr/local/etc/profile.d/z.sh
-function _Z_precmd {
-  z --add "$(pwd -P)" 61
-}
-
 precmd_functions=($precmd_functions _Z_precmd)
 
 # direnv
@@ -86,3 +87,6 @@ eval "$(direnv hook zsh)"
 for function in ~/.zsh/functions/*; do
   source $function
 done
+
+export PATH="$HOME/.rbenv/bin:$PATH" 
+eval "$(rbenv init -)"
