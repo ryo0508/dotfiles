@@ -41,25 +41,31 @@ ZSH_THEME="ys"
 # in the history command output. The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|
 # yyyy-mm-dd
 # HIST_STAMPS="mm/dd/yyyy"
+#
+export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/ryo/resources/android_sdk/tools:/Users/ryo/android-sdks/platform-tools:/usr/local/share/npm/bin"
+
+# export PATH="/usr/local/heroku/bin:/Users/ryo/.rbenv/bin:/Users/ryo/.rbenv/shims:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/ryo/resources/android_sdk/tools:/Users/ryo/android-sdks/platform-tools::/usr/local/share/npm/bin"
+
 
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(
-  git
-  rbenv
   brew
+  git
+  nvm
+  rbenv
   vi-mode
   z
   history
   history-substring-search
+  heroku
 )
 
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-export PATH="/usr/local/heroku/bin:/Users/ryo/.rbenv/bin:/Users/ryo/.rbenv/shims:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/ryo/resources/android_sdk/tools:/Users/ryo/android-sdks/platform-tools::/usr/local/share/npm/bin"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # # Preferred editor for local and remote sessions
@@ -88,5 +94,6 @@ for function in ~/.zsh/functions/*; do
   source $function
 done
 
-export PATH="$HOME/.rbenv/bin:$PATH" 
-eval "$(rbenv init -)"
+source $(brew --prefix nvm)/nvm.sh
+
+export DISABLE_AUTO_TITLE=true

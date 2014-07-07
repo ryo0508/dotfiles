@@ -32,6 +32,9 @@ NeoBundleLazy 'Shougo/neocomplcache-rsense', {
   \ 'depends'  : 'Shougo/neocomplete',
   \ 'autoload' : { 'filetypes' : 'ruby' }}
 
+NeoBundleLazy 'groenewege/vim-less', {
+  \ 'autoload' : { 'filetypes' : 'less' }}
+
 NeoBundleLazy 'pangloss/vim-javascript', {
   \ 'autoload' : { 'filetypes' : 'javascript' }}
 
@@ -59,22 +62,20 @@ NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
 NeoBundle 'godlygeek/tabular'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'thinca/vim-quickrun'
-" NeoBundle 'kien/ctrlp.vim'
-" NeoBundle 'wincent/Command-T'
 NeoBundle 'git://git.wincent.com/command-t.git'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'scrooloose/nerdtree', { 'augroup' : 'NERDTreeHijackNetrw'}
 NeoBundle 'LeafCage/yankround.vim'
-" NeoBundle 'vim-scripts/YankRing.vim'
 NeoBundleLazy 'evanmiller/nginx-vim-syntax', {
   \ 'autoload' : {'filetypes' : 'nginx'}}
 NeoBundle 'osyo-manga/vim-over'
+
+NeoBundle 'nathanaelkane/vim-indent-guides'
 
 " Color Scheme
 NeoBundleLazy 'tomasr/molokai'
 NeoBundleLazy 'Solarized'
 NeoBundle     'sjl/badwolf'
-NeoBundle     'noahfrederick/Hemisu.git'
 
 " Titanium開発用
 " NeoBundleLazy     'pekepeke/titanium-vim.git', {
@@ -173,11 +174,10 @@ set noshowmode    "Hide the default mode text (e.g. -- INSERT -- below the statu
 " {{{ Color Settings
 set t_Co=256
 syntax on
-" set background=dark
-set background=light
+set background=dark
+" set background=light
 
 colorscheme badwolf
-" colorscheme hemisu
 
 " MacVimで動かしたときはSolarizedのdarkを適用
 " if has("gui_macvim")
@@ -304,7 +304,7 @@ nmap <silent> <Leader>n :NERDTreeToggle<CR>
 set wildignore+=*/.hg,*/.git,*/.svn                       " VCS
 set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg            " Images
 set wildignore+=*/vendor/*,*/log/*,*/tmp/*,*/app/admin/*  " Rails
-set wildignore+=*/app/view/admin,*/coverage,*/bin   " Rails
+set wildignore+=*/app/view/admin,*/coverage,*/doc ",*/bin   " Rails
 " set wildignore+=*.jar,*.class                             " Java
 " set wildignore+=rebar,tags,*.beam,deps/*,rel/*,*/ebin/*   " Erlang
 set wildignore+=*.lzo,*.zip,*.gz,*.tgz,*.tar              " Compressed files
@@ -541,17 +541,17 @@ endif
 nnoremap <Leader>a :call RunCurrentSpecFile()<CR>
 nnoremap <Leader>s :call RunNearestSpec()<CR>
 nnoremap <Leader>l :call RunLastSpec()<CR>
+nnoremap <Leader><Leader>/ :Copen!<CR>
 " let g:RspecKeymap=0
 " let g:RspecSplitHorizontal=0
 " }}}}
-nnoremap <Leader>a :call RunCurrentSpecFile()<CR>
-nnoremap <Leader>s :call RunNearestSpec()<CR>
-nnoremap <Leader>l :call RunLastSpec()<CR>
 
 let s:bundle = neobundle#get('vim-rspec')
 function! s:bundle.hooks.on_source(bundle)
    let g:rspec_command = 'Dispatch rspec --format documentation {spec}'
 endfunction
+
+" Copen!
 
 " over.vim {{{
 
@@ -616,7 +616,14 @@ map <silent> [Tag]p :tabprevious<CR>
 iabbrev parmas params
 
 " More File Types
-au BufNewFile,BufRead *.coffee    set filetype=coffee
+au BufNewFile,BufRead *.coffee*   set filetype=coffee
 au BufNewFile,BufRead *.thor      set filetype=ruby
 au BufNewFile,BufRead *.jade      set filetype=jade
 au BufNewFile,BufRead *nginx.conf set filetype=nginx
+au BufNewFile,BufRead *.less      set filetype=less
+
+" vimを立ち上げたときに、自動的にvim-indent-guidesをオンにする
+let g:indent_guides_enable_on_vim_startup = 0
+let g:indent_guides_start_level = 2
+hi IndentGuidesOdd  ctermbg=none
+hi IndentGuidesEven ctermbg=black
