@@ -1,0 +1,47 @@
+#!/bin/sh
+
+FORCE=false
+
+#
+# もしも -fオプションを渡されたら強制的に全てのファイルを書き換える
+#
+while getopts :f opt; do
+  case ${opt} in
+    f)
+      FORCE=true;;
+    \?)
+      exit 1;;
+  esac
+done
+
+
+#
+# ./dotfiles以下にあるファイルを全て~/.{_filename_}としてシンボリックファイルを作る
+#
+for f in dotfiles/*; do
+
+  filename=$(basename $f)
+  target="${HOME}/.${filename}"
+
+  echo "f => $f"
+  echo "target => $target"
+  echo "filename => $filename"
+
+  if [ ! -h ${target} ]; then
+    echo "Can't update ordinary file: ${target}"
+  fi
+
+  if ${FORCE};then
+    ln -snf "${PWD}/${f}" ${target}; echo "overwrote: ${target}";
+  else
+    # シンボリックリンクがすでに存在していたら上書きするか聞く
+    read -p "Do you wanna overwrite existing symlink: ${target}?" yn
+    case $yn in
+      [Yy]* ) ln -snf "${PWD}/${f}" ${target}; echo "done!";;
+      [Nn]* ) echo "Didn't create ${name}";;
+      * )  echo "Please answer something... :(";;
+    esac
+  fi
+done
+
+# Sample: https://github.com/thoughtbot/dotfiles/blob/master/install.sh
