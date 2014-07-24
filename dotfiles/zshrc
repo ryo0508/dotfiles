@@ -44,22 +44,23 @@ ZSH_THEME="ys"
 #
 export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/ryo/resources/android_sdk/tools:/Users/ryo/android-sdks/platform-tools:/usr/local/share/npm/bin"
 
-# export PATH="/usr/local/heroku/bin:/Users/ryo/.rbenv/bin:/Users/ryo/.rbenv/shims:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/ryo/resources/android_sdk/tools:/Users/ryo/android-sdks/platform-tools::/usr/local/share/npm/bin"
-
-
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(
   brew
+  common-aliases
   git
-  nvm
-  rbenv
-  vi-mode
-  z
+  knife
   history
   history-substring-search
   heroku
+  nvm
+  rails
+  rbenv
+  tmuxinator
+  vi-mode
+  z
 )
 
 source $ZSH/oh-my-zsh.sh

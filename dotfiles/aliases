@@ -1,65 +1,8 @@
 ## Alias configuration
 # expand aliases before completing
-#
-setopt complete_aliases     # aliased ls needs if file/dir completions work
-
-alias where="command -v"
-alias j="jobs -l"
-
-alias la="ls -a"
-alias lf="ls -F"
-alias ll="ls -lah"
-alias -g L='| less'
-alias -g H='| head'
-alias -g T='| tail'
-alias -g G='| grep'
-alias -g W='| wc'
-alias -g S='| sed'
-alias -g A='| awk'
-
-alias monit="ssh docci_monit01"
-alias s="rspec"
-
-# set terminal title including current directory
-#
-case "${TERM}" in
-  xterm|xterm-color|kterm|kterm-color)
-    precmd() {
-      echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
-    }
-    ;;
-esac
-
-case "${OSTYPE}" in
-  freebsd*|darwin*)
-    alias ls="ls -G -w"
-    ;;
-  linux*)
-    alias ls="ls --color"
-    ;;
-esac
-
-tmux-att() { tmux attach-session -t $1 }
 
 # Launch iPhoneSimulator
 alias ios_simulator='open /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/Applications/iPhone\ Simulator.app'
 
-# Rails Alias
-alias migrate="rake db:migrate && rake db:rollback && rake db:migrate && rake db:test:prepare"
-alias dbreset="rake db:drop && rake db:create && rake db:migrate && rake db:seed && rake db:test:prepare"
-
-# Syntax Highlighter
-pbhighlight() {
-  if [ -n "$1" ]; then
-    pbpaste | highlight -O rtf --line-numbers --font-size 24 --font Ricty --style solarized-dark -W -J 50 -j 3 --src-lang $1 | pbcopy
-  else
-    pbpaste | highlight -O rtf --line-numbers --font-size 24 --font Ricty --style solarized-dark -W -J 50 -j 3 --src-lang ruby | pbcopy
-  fi
-}
-
-alias bshadow='ti build -p ios -T device -P "A56B5EAD-37CB-419A-AB0B-C98FADBC31C3" -V "RYO SAKIKAWA (768C2BL949)"'
-
 bindkey '' history-substring-search-up
 bindkey '' history-substring-search-down
-
-alias mongo_stg="mongo 95.85.33.123:27017/turkeyflip_dev -uricky -pherpderppenis123"
