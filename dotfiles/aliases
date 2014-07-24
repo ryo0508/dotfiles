@@ -8,7 +8,7 @@ alias j="jobs -l"
 
 alias la="ls -a"
 alias lf="ls -F"
-alias ll="ls -la"
+alias ll="ls -lah"
 alias -g L='| less'
 alias -g H='| head'
 alias -g T='| tail'

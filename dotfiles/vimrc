@@ -68,6 +68,8 @@ NeoBundle 'scrooloose/nerdtree', { 'augroup' : 'NERDTreeHijackNetrw'}
 NeoBundle 'LeafCage/yankround.vim'
 NeoBundleLazy 'evanmiller/nginx-vim-syntax', {
   \ 'autoload' : {'filetypes' : 'nginx'}}
+NeoBundleLazy 'elzr/vim-json', {
+  \ 'autoload' : {'filetypes' : 'json'}}
 NeoBundle 'osyo-manga/vim-over'
 
 NeoBundle 'nathanaelkane/vim-indent-guides'
@@ -208,11 +210,9 @@ nmap <Esc><Esc> :nohlsearch<CR><Esc>
 nnoremap K <nop>
 
 " escape key remapping
-inoremap jk <esc>
+" inoremap jk <esc>
 
 " disable save a file named '
-autocmd! BufWritePre fuck 
-      \ try | echoerr 'Hey thats not nice to call a file ' . expand('<afile>') | endtry
 autocmd! BufWritePre ' 
       \ try | echoerr 'This file should not be saved: ' . expand('<afile>') | endtry
 
@@ -616,6 +616,7 @@ map <silent> [Tag]p :tabprevious<CR>
 iabbrev parmas params
 
 " More File Types
+au BufNewFile,BufRead *.json      set filetype=json
 au BufNewFile,BufRead *.coffee*   set filetype=coffee
 au BufNewFile,BufRead *.thor      set filetype=ruby
 au BufNewFile,BufRead *.jade      set filetype=jade
